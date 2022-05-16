@@ -15,7 +15,7 @@ public class Conjunction extends Statement {
 
     @Override
     public String toString() {
-        return a + App.symbols.getSymbol(Symbol.AND) + b;
+        return a + App.symbols.get(Symbol.AND) + b;
     }
 
     @Override

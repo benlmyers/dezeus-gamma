@@ -15,7 +15,7 @@ public class Disjunction extends Statement {
     
     @Override
     public String toString() {
-        return a + App.symbols.getSymbol(Symbol.OR) + b;
+        return a + App.symbols.get(Symbol.OR) + b;
     }
 
     @Override

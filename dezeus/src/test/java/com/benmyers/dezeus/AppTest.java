@@ -15,10 +15,10 @@ public class AppTest {
         App.resetSymbols();
         Statement p;
         try {
-            p = new Atom("p");
-            assertEquals("p", p.toString());
-            assertEquals("p", p.toEnglish());
-            assertEquals(" p ", p.toLaTeX());
+            p = new Atom("P");
+            assertEquals("P", p.toString());
+            assertEquals("P", p.toEnglish());
+            assertEquals("P", p.toLaTeX());
         } catch (Exception e) {
             fail(e.getMessage());
         }

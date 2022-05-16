@@ -17,23 +17,68 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println("Welcome to Dezeus!");
-        System.out.println("------------------");
+        while (true) {
+            System.out.println("------------------");
+            System.out.println("What would you like to do?");
+            System.out.println("[1] Symbolize");
+            System.out.println("[*] Exit");
+            try {
+                System.out.print(">> ");
+                int choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                    case 1:
+                        symbolize();
+                        break;
+                    default:
+                        return;
+                }
+            } catch (Exception e) {
+                return;
+            }
+        }
+    }
+
+    public static void resetSymbols() {
+        Namespace.reset();
+    }
+
+    private static void symbolize() {
         System.out.println("Enter a statement below.");
+        System.out.print(">> ");
         String input = scanner.nextLine();
         try {
             StatementBuilder builder = new StatementBuilder(input);
             Statement statement = builder.build();
             System.out.println("-");
-            System.out.println(statement.toString());
-            System.out.println(statement.toEnglish());
-            System.out.println(statement.toLaTeX());
+            System.out.println("You entered: " + statement.toString());
+            symbolizeMenu(statement);
         } catch (DezeusException e) {
             System.out.println("An error occured.");
             e.printStackTrace();
         }
     }
 
-    public static void resetSymbols() {
-        Namespace.reset();
+    private static void symbolizeMenu(Statement s) {
+        System.out.println("-");
+        System.out.println("[1] Convert to English");
+        System.out.println("[2] Convert to LaTeX");
+        System.out.println("[*] Done");
+        try {
+            System.out.print(">> ");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1:
+                    System.out.println(s.toEnglish());
+                    symbolizeMenu(s);
+                    break;
+                case 2:
+                    System.out.println(s.toLaTeX());
+                    symbolizeMenu(s);
+                    break;
+                default:
+                    return;
+            }
+        } catch (Exception e) {
+        }
     }
 }

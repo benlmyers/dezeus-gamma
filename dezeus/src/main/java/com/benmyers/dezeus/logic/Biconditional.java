@@ -16,16 +16,16 @@ public class Biconditional extends Statement {
 
     @Override
     public String toString() {
-        return a + App.symbols.get(Symbol.IFF) + b;
+        return formalizeString(a) + App.symbols.get(Symbol.IFF) + formalizeString(b);
     }
 
     @Override
     public String toEnglish() {
-        return a.toEnglish() + " if and only if " + b.toEnglish();
+        return formalizeEnglish(a) + " if and only if " + formalizeEnglish(b);
     }
 
     @Override
     public String toLaTeX() {
-        return a.toEnglish() + " \\Leftrightarrow " + b.toLaTeX();
+        return formalizeLaTeX(a) + " \\Leftrightarrow " + formalizeLaTeX(b);
     }
 }

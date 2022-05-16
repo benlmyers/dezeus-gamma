@@ -8,13 +8,21 @@ public class Atom extends Statement {
     private String latex;
 
     public Atom(String name) throws DezeusException {
-        Namespace.registerName(name);
-        this.name = name;
-        this.latex = " " + name + " ";
+        this(name, name, false);
     }
 
     public Atom(String name, String latex) throws DezeusException {
-        this(name);
+        this(name, latex, false);
+    }
+
+    Atom(String name, Boolean bypass) throws DezeusException {
+        this(name, name, bypass);
+    }
+
+    Atom(String name, String latex, Boolean bypass) throws DezeusException {
+        if (!bypass)
+            Namespace.registerName(name);
+        this.name = name;
         this.latex = latex;
     }
 

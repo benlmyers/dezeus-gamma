@@ -18,4 +18,13 @@ public abstract class SymbolSet {
         }
         throw new SymbolNotFoundException(value);
     }
+
+    public int maxSymoblLength() {
+        int best = -1;
+        for (String s : getAll()) {
+            if (s.length() > best)
+                best = s.length();
+        }
+        return best;
+    }
 }

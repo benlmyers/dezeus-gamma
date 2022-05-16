@@ -14,8 +14,8 @@ public class DefaultSymbolSet extends SymbolSet {
         map.put(Symbol.AND, "^");
         map.put(Symbol.OR, "v");
         map.put(Symbol.NOT, "~");
-        map.put(Symbol.IFF, "↔");
-        map.put(Symbol.IMPLIES, "→");
+        map.put(Symbol.IFF, "<->");
+        map.put(Symbol.IMPLIES, "->");
     }
 
     @Override

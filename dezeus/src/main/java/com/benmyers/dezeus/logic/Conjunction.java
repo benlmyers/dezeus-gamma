@@ -15,16 +15,16 @@ public class Conjunction extends Statement {
 
     @Override
     public String toString() {
-        return formalizeString(a) + App.symbols.get(Symbol.AND) + formalizeString(b);
+        return wrapString(a) + App.symbols.get(Symbol.AND) + wrapString(b);
     }
 
     @Override
     public String toEnglish() {
-        return formalizeEnglish(a) + " and " + formalizeEnglish(b);
+        return wrapEngligh(a) + " and " + wrapEngligh(b);
     }
 
     @Override
     public String toLaTeX() {
-        return formalizeLaTeX(a) + " \\land " + formalizeLaTeX(b);
+        return wrapLaTeX(a) + " \\land " + wrapLaTeX(b);
     }
 }

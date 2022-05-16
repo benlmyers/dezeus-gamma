@@ -15,16 +15,16 @@ public class Conditional extends Statement {
 
     @Override
     public String toString() {
-        return formalizeString(ant) + App.symbols.get(Symbol.IMPLIES) + formalizeString(cons);
+        return wrapString(ant) + App.symbols.get(Symbol.IMPLIES) + wrapString(cons);
     }
 
     @Override
     public String toEnglish() {
-        return formalizeEnglish(ant) + " implies " + formalizeEnglish(cons);
+        return wrapEngligh(ant) + " implies " + wrapEngligh(cons);
     }
 
     @Override
     public String toLaTeX() {
-        return formalizeLaTeX(ant) + " \\Rightarrow " + formalizeLaTeX(cons);
+        return wrapLaTeX(ant) + " \\Rightarrow " + wrapLaTeX(cons);
     }
 }

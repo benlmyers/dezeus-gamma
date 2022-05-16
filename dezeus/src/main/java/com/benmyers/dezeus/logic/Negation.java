@@ -14,16 +14,16 @@ public class Negation extends Statement {
 
     @Override
     public String toString() {
-        return App.symbols.get(Symbol.NOT) + formalizeString(s);
+        return App.symbols.get(Symbol.NOT) + wrapString(s);
     }
 
     @Override
     public String toEnglish() {
-        return "not" + formalizeEnglish(s);
+        return "not" + wrapEngligh(s);
     }
 
     @Override
     public String toLaTeX() {
-        return "\\neg" + formalizeLaTeX(s);
+        return "\\neg" + wrapLaTeX(s);
     }
 }

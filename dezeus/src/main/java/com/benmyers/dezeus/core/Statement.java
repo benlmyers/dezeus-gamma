@@ -38,7 +38,7 @@ public abstract class Statement {
         return new Negation(s);
     }
 
-    protected static String formalizeString(Statement s) {
+    protected static String wrapString(Statement s) {
         if (s instanceof Atom) {
             return s.toString();
         } else {
@@ -46,7 +46,7 @@ public abstract class Statement {
         }
     }
 
-    protected static String formalizeEnglish(Statement s) {
+    protected static String wrapEngligh(Statement s) {
         if (s instanceof Atom) {
             return s.toEnglish();
         } else {
@@ -54,7 +54,7 @@ public abstract class Statement {
         }
     }
 
-    protected static String formalizeLaTeX(Statement s) {
+    protected static String wrapLaTeX(Statement s) {
         if (s instanceof Atom) {
             return s.toLaTeX();
         } else {

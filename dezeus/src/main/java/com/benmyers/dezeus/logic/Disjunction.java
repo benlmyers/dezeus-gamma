@@ -15,16 +15,16 @@ public class Disjunction extends Statement {
 
     @Override
     public String toString() {
-        return formalizeString(a) + App.symbols.get(Symbol.OR) + formalizeString(b);
+        return wrapString(a) + App.symbols.get(Symbol.OR) + wrapString(b);
     }
 
     @Override
     public String toEnglish() {
-        return formalizeEnglish(a) + " or " + formalizeEnglish(b);
+        return wrapEngligh(a) + " or " + wrapEngligh(b);
     }
 
     @Override
     public String toLaTeX() {
-        return formalizeLaTeX(a) + " \\lor " + formalizeLaTeX(b);
+        return wrapLaTeX(a) + " \\lor " + wrapLaTeX(b);
     }
 }

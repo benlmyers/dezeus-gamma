@@ -6,6 +6,8 @@ import com.benmyers.dezeus.lang.Symbol;
 
 public class Biconditional extends Statement {
 
+    public static final int ORDER = 1;
+
     private Statement a;
     private Statement b;
 

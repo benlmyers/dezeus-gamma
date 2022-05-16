@@ -6,6 +6,8 @@ import com.benmyers.dezeus.lang.Symbol;
 
 public class Negation extends Statement {
 
+    public static final int ORDER = 2;
+
     private Statement s;
 
     public Negation(Statement s) {

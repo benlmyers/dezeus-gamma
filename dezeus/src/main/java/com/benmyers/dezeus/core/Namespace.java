@@ -9,7 +9,7 @@ public class Namespace {
 
     private static List<String> usedNames = new ArrayList<>();
 
-    public static void registerName(String name) throws Exception {
+    public static void registerName(String name) throws AtomNameException {
         if (usedNames.contains(name)) {
             throw new AtomNameException();
         }

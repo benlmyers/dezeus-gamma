@@ -1,9 +1,12 @@
 package com.benmyers.dezeus.lang;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class DefaultSymbolSet implements SymbolSet {
+import com.benmyers.dezeus.App;
+
+public class DefaultSymbolSet extends SymbolSet {
 
     private Map<Symbol, String> map = new EnumMap<>(Symbol.class);
 
@@ -18,5 +21,14 @@ public class DefaultSymbolSet implements SymbolSet {
     @Override
     public String get(Symbol key) {
         return map.get(key);
+    }
+
+    @Override
+    public ArrayList<String> getAll() {
+        Symbol[] keys = Symbol.class.getEnumConstants();
+        ArrayList<String> val = new ArrayList<>();
+        for (Symbol key : keys)
+            val.add(App.symbols.get(key));
+        return val;
     }
 }

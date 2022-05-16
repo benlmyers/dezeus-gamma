@@ -6,6 +6,8 @@ import com.benmyers.dezeus.lang.Symbol;
 
 public class Conjunction extends Statement {
 
+    public static final int ORDER = 1;
+
     private Statement a, b;
 
     public Conjunction(Statement a, Statement b) {

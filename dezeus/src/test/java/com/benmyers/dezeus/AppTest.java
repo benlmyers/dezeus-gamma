@@ -12,6 +12,7 @@ public class AppTest {
 
     @Test
     public void checkNaming() {
+        App.resetSymbols();
         Statement p;
         try {
             p = new Atom("p");

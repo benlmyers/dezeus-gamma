@@ -15,7 +15,7 @@ public class Conditional extends Statement {
 
     @Override
     public String toString() {
-        return ant + App.symbols.get(Symbol.AND) + cons;
+        return ant + App.symbols.get(Symbol.IMPLIES) + cons;
     }
 
     @Override

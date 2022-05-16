@@ -6,7 +6,7 @@ public class Atom extends Statement {
     private String latex;
 
     public Atom(String name) throws Exception {
-        VariableNamespace.registerName(name);
+        Namespace.registerName(name);
         this.name = name;
         this.latex = " " + name + " ";
     }

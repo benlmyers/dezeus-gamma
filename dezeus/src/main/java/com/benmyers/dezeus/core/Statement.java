@@ -37,4 +37,28 @@ public abstract class Statement {
     public Negation not(Statement s) {
         return new Negation(s);
     }
+
+    protected static String formalizeString(Statement s) {
+        if (s instanceof Atom) {
+            return s.toString();
+        } else {
+            return "(" + s.toString() + ")";
+        }
+    }
+
+    protected static String formalizeEnglish(Statement s) {
+        if (s instanceof Atom) {
+            return s.toEnglish();
+        } else {
+            return "(" + s.toEnglish() + ")";
+        }
+    }
+
+    protected static String formalizeLaTeX(Statement s) {
+        if (s instanceof Atom) {
+            return s.toLaTeX();
+        } else {
+            return "(" + s.toLaTeX() + ")";
+        }
+    }
 }

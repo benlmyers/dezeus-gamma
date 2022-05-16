@@ -25,6 +25,6 @@ public class Conditional extends Statement {
 
     @Override
     public String toLaTeX() {
-        return ant.toLaTeX() + "\\Rightarrow" + cons.toLaTeX();
+        return ant.toLaTeX() + " \\Rightarrow " + cons.toLaTeX();
     }
 }

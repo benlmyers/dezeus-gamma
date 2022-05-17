@@ -56,6 +56,7 @@ public class StatementBuilder {
                         if (depth == bestDepth && order < bestOrder)
                             break;
                         bestDepth = depth;
+                        bestOrder = order;
                         best = symbol;
                         symbolIndex = i;
                         symbolLength = j;

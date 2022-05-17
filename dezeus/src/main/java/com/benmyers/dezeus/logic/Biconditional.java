@@ -23,6 +23,14 @@ public class Biconditional extends Operator {
         return Symbol.IFF;
     }
 
+    public Statement getLeft() {
+        return a;
+    }
+
+    public Statement getRight() {
+        return b;
+    }
+
     @Override
     public String toString() {
         return wrapString(a) + App.symbols.get(Symbol.IFF) + wrapString(b);

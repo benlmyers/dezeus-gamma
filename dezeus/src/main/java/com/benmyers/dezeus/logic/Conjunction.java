@@ -22,6 +22,14 @@ public class Conjunction extends Operator {
         return Symbol.AND;
     }
 
+    public Statement getLeft() {
+        return a;
+    }
+
+    public Statement getRight() {
+        return b;
+    }
+
     @Override
     public String toString() {
         return wrapString(a) + App.symbols.get(Symbol.AND) + wrapString(b);

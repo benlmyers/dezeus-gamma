@@ -22,6 +22,14 @@ public class Conditional extends Operator {
         return Symbol.IMPLIES;
     }
 
+    public Statement getAnt() {
+        return ant;
+    }
+
+    public Statement getCons() {
+        return cons;
+    }
+
     @Override
     public String toString() {
         return wrapString(ant) + App.symbols.get(Symbol.IMPLIES) + wrapString(cons);

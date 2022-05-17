@@ -22,6 +22,14 @@ public class Disjunction extends Operator {
         return Symbol.OR;
     }
 
+    public Statement getLeft() {
+        return a;
+    }
+
+    public Statement getRight() {
+        return b;
+    }
+
     @Override
     public String toString() {
         return wrapString(a) + App.symbols.get(Symbol.OR) + wrapString(b);

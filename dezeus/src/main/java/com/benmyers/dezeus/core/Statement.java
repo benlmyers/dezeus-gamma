@@ -34,8 +34,8 @@ public abstract class Statement {
         return new Biconditional(this, b);
     }
 
-    public Negation not(Statement s) {
-        return new Negation(s);
+    public Negation not() {
+        return new Negation(this);
     }
 
     protected static String wrapString(Statement s) {

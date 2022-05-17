@@ -52,4 +52,28 @@ public class SymbolTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void checkInformalSymbolization() {
+        App.resetSymbols();
+        try {
+            Statement p = new Atom("P");
+            Statement q = new Atom("Q");
+            Statement r = new Atom("R");
+            Statement a = p.and(q).and(r);
+            Statement b = p.or(q.and(r));
+            Statement c = p.implies(q).iff(r);
+            Statement d = p.not().or(q);
+            StatementBuilder aBuild = new StatementBuilder("P ^ Q ^ R");
+            StatementBuilder bBuild = new StatementBuilder("P v Q ^ R");
+            StatementBuilder cBuild = new StatementBuilder("P -> Q <-> R");
+            StatementBuilder dBuild = new StatementBuilder("~P v Q");
+            assertEquals(a.toString(), aBuild.build().toString());
+            assertEquals(b.toString(), bBuild.build().toString());
+            assertEquals(c.toString(), cBuild.build().toString());
+            assertEquals(d.toString(), dBuild.build().toString());
+        } catch (DezeusException e) {
+            fail(e.getMessage());
+        }
+    }
 }

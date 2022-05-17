@@ -11,6 +11,7 @@ public class DefaultSymbolSet extends SymbolSet {
     private Map<Symbol, String> map = new EnumMap<>(Symbol.class);
 
     public DefaultSymbolSet() {
+        map.put(Symbol.MISSING, "?");
         map.put(Symbol.AND, "^");
         map.put(Symbol.OR, "v");
         map.put(Symbol.NOT, "~");

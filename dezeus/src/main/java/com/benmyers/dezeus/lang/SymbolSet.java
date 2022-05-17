@@ -22,6 +22,8 @@ public abstract class SymbolSet {
     public int maxSymoblLength() {
         int best = -1;
         for (String s : getAll()) {
+            if (s == null)
+                continue;
             if (s.length() > best)
                 best = s.length();
         }

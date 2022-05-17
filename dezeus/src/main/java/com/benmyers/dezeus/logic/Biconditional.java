@@ -1,12 +1,11 @@
 package com.benmyers.dezeus.logic;
 
 import com.benmyers.dezeus.App;
+import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.lang.Symbol;
 
-public class Biconditional extends Statement {
-
-    public static final int ORDER = 1;
+public class Biconditional extends Operator {
 
     private Statement a;
     private Statement b;
@@ -14,6 +13,14 @@ public class Biconditional extends Statement {
     public Biconditional(Statement a, Statement b) {
         this.a = a;
         this.b = b;
+    }
+
+    public static int getOrder() {
+        return 5;
+    }
+
+    public static Symbol getSymbol() {
+        return Symbol.IFF;
     }
 
     @Override

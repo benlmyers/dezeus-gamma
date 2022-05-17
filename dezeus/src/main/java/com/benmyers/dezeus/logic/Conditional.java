@@ -1,18 +1,25 @@
 package com.benmyers.dezeus.logic;
 
 import com.benmyers.dezeus.App;
+import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.lang.Symbol;
 
-public class Conditional extends Statement {
-
-    public static final int ORDER = 1;
+public class Conditional extends Operator {
 
     private Statement ant, cons;
 
     public Conditional(Statement ant, Statement cons) {
         this.ant = ant;
         this.cons = cons;
+    }
+
+    public static int getOrder() {
+        return 4;
+    }
+
+    public static Symbol getSymbol() {
+        return Symbol.IMPLIES;
     }
 
     @Override

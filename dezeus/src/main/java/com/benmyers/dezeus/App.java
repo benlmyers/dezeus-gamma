@@ -32,7 +32,9 @@ public class App {
                     default:
                         return;
                 }
+            } catch (NumberFormatException e) {
             } catch (Exception e) {
+                e.printStackTrace();
                 return;
             }
         }
@@ -62,11 +64,14 @@ public class App {
         System.out.println("-");
         System.out.println("[1] Convert to English");
         System.out.println("[2] Convert to LaTeX");
-        System.out.println("[*] Done");
+        System.out.println("[*] Symbolize again");
+        System.out.println("[0] Menu");
         try {
             System.out.print(">> ");
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
+                case 0:
+                    return;
                 case 1:
                     System.out.println(s.toEnglish());
                     symbolizeMenu(s);
@@ -76,9 +81,11 @@ public class App {
                     symbolizeMenu(s);
                     break;
                 default:
+                    symbolize();
                     return;
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            symbolize();
         }
     }
 }

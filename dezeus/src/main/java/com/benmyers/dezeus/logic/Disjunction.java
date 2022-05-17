@@ -1,18 +1,25 @@
 package com.benmyers.dezeus.logic;
 
 import com.benmyers.dezeus.App;
+import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.lang.Symbol;
 
-public class Disjunction extends Statement {
-
-    public static final int ORDER = 1;
+public class Disjunction extends Operator {
 
     private Statement a, b;
 
     public Disjunction(Statement a, Statement b) {
         this.a = a;
         this.b = b;
+    }
+
+    public static int getOrder() {
+        return 3;
+    }
+
+    public static Symbol getSymbol() {
+        return Symbol.OR;
     }
 
     @Override

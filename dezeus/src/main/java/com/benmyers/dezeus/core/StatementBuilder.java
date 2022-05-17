@@ -1,5 +1,8 @@
 package com.benmyers.dezeus.core;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.error.DezeusException;
 import com.benmyers.dezeus.core.error.InvalidGroupingException;
@@ -21,12 +24,14 @@ public class StatementBuilder {
         this.input = input;
     }
 
+    @SuppressWarnings("unchecked")
     public Statement build() throws DezeusException {
         input = removeSpaces(input);
         int depth = 0;
         Symbol best = null;
         int symbolIndex = -1;
         int symbolLength = -1;
+        int bestOrder = Integer.MIN_VALUE;
         int bestDepth = Integer.MAX_VALUE;
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
@@ -42,15 +47,22 @@ public class StatementBuilder {
                     break;
                 String s = input.substring(i, i + j);
                 try {
-                    Symbol operator = App.symbols.getFrom(String.valueOf(s));
-                    if (operator != null && depth < bestDepth) {
+                    Symbol symbol = App.symbols.getFrom(String.valueOf(s));
+                    Class<? extends Statement> symbolType = symbol.getStatementType();
+                    if (depth <= bestDepth && Operator.class.isAssignableFrom(symbolType)) {
+                        Class<? extends Operator> operatorClass = (Class<? extends Operator>) symbolType;
+                        Method orderMethod = operatorClass.getMethod("getOrder");
+                        int order = (int) orderMethod.invoke(null);
+                        if (depth == bestDepth && order < bestOrder)
+                            break;
                         bestDepth = depth;
-                        best = operator;
+                        best = symbol;
                         symbolIndex = i;
                         symbolLength = j;
                         break;
                     }
-                } catch (SymbolNotFoundException e) {
+                } catch (SymbolNotFoundException | InvocationTargetException | IllegalAccessException
+                        | NoSuchMethodException e) {
                 }
             }
         }

@@ -3,25 +3,26 @@ package com.benmyers.dezeus.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.benmyers.dezeus.core.derivation.Derivation;
 import com.benmyers.dezeus.core.invalidity.Invalidity;
+import com.benmyers.dezeus.core.justification.PremiseJustification;
 
 public class Proposition {
 
-    private Statements premises;
+    private Set<Statement> premises;
     private Statement conclusion;
 
-    public Proposition(Statements premises, Statement conclusion) {
+    public Proposition(Set<Statement> premises, Statement conclusion) {
         this.premises = premises;
         this.conclusion = conclusion;
     }
 
     public Derivation prove() throws Invalidity {
-        Set<Premise> _premises = new HashSet<>();
+        Set<Deduction> deductions = new HashSet<>();
         for (Statement statement : premises) {
-            _premises.add(new Premise(statement));
+            Deduction deduction = new Deduction(statement, new PremiseJustification());
+            deductions.add(deduction);
         }
-        Show showConc = new Show(conclusion, _premises);
-        Derivation derivation = showConc.show();
-        return derivation;
+        return conclusion.show(deductions);
     }
 }

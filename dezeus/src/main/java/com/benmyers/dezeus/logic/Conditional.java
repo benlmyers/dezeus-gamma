@@ -1,8 +1,16 @@
 package com.benmyers.dezeus.logic;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.benmyers.dezeus.App;
+import com.benmyers.dezeus.core.Deduction;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.derivation.ConditionalDerivation;
+import com.benmyers.dezeus.core.derivation.Derivation;
+import com.benmyers.dezeus.core.invalidity.Invalidity;
+import com.benmyers.dezeus.core.justification.AssumptionConditionalJustification;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Conditional extends Operator {
@@ -28,6 +36,15 @@ public class Conditional extends Operator {
 
     public Statement getCons() {
         return cons;
+    }
+
+    @Override
+    public Derivation show(Set<Deduction> knowns) throws Invalidity {
+        Deduction assumption = new Deduction(getAnt(), new AssumptionConditionalJustification());
+        Set<Deduction> newKnowns = new HashSet<>(knowns);
+        newKnowns.add(assumption);
+        Derivation consDerivation = getCons().show(newKnowns);
+        return new ConditionalDerivation(assumption, consDerivation);
     }
 
     @Override

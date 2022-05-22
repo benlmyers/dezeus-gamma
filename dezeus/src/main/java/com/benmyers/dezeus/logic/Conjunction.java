@@ -1,8 +1,17 @@
 package com.benmyers.dezeus.logic;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.benmyers.dezeus.App;
+import com.benmyers.dezeus.core.Deduction;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.derivation.ConditionalDerivation;
+import com.benmyers.dezeus.core.derivation.ConjunctionDerivation;
+import com.benmyers.dezeus.core.derivation.Derivation;
+import com.benmyers.dezeus.core.invalidity.Invalidity;
+import com.benmyers.dezeus.core.justification.AssumptionConditionalJustification;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Conjunction extends Operator {
@@ -28,6 +37,13 @@ public class Conjunction extends Operator {
 
     public Statement getRight() {
         return b;
+    }
+
+    @Override
+    public Derivation show(Set<Deduction> knowns) throws Invalidity {
+        Derivation leftDerivation = getLeft().show(knowns);
+        Derivation rightDerivation = getRight().show(knowns);
+        return new ConjunctionDerivation(leftDerivation, rightDerivation);
     }
 
     @Override

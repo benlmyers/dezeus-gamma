@@ -1,8 +1,15 @@
 package com.benmyers.dezeus.logic;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.benmyers.dezeus.App;
+import com.benmyers.dezeus.core.Deduction;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.derivation.Derivation;
+import com.benmyers.dezeus.core.invalidity.Invalidity;
+import com.benmyers.dezeus.core.justification.AssumptionConditionalJustification;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Biconditional extends Operator {

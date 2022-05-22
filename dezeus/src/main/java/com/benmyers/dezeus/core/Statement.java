@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.benmyers.dezeus.core.derivation.Derivation;
 import com.benmyers.dezeus.core.derivation.IndirectDerivation;
-import com.benmyers.dezeus.core.invalidity.Invalidity;
+import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.core.justification.AssumptionIndirectJustification;
 import com.benmyers.dezeus.logic.Biconditional;
 import com.benmyers.dezeus.logic.Conditional;
@@ -45,12 +45,12 @@ public abstract class Statement {
         return new Negation(this);
     }
 
-    public Derivation show(Set<Deduction> knowns) throws Invalidity {
+    public Derivation show(Set<Deduction> knowns) throws ProofNotFoundException {
         Deduction assumption = new Deduction(not(), new AssumptionIndirectJustification());
         Set<Deduction> newKnowns = new HashSet<>(knowns);
         newKnowns.add(assumption);
         // TODO: Main derivation logic.
-        return new IndirectDerivation(null, null);
+        return new IndirectDerivation(this, null, null);
     }
 
     protected static String wrapString(Statement s) {

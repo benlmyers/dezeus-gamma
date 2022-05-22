@@ -1,11 +1,14 @@
 package com.benmyers.dezeus.core.derivation;
 
+import com.benmyers.dezeus.core.Statement;
+
 public class ConjunctionDerivation extends Derivation {
 
     private Derivation leftDerivation;
     private Derivation rightDerivation;
 
-    public ConjunctionDerivation(Derivation leftDerivation, Derivation rightDerivation) {
+    public ConjunctionDerivation(Statement show, Derivation leftDerivation, Derivation rightDerivation) {
+        super(show);
         this.leftDerivation = leftDerivation;
         this.rightDerivation = rightDerivation;
     }
@@ -18,5 +21,10 @@ public class ConjunctionDerivation extends Derivation {
     @Override
     public String getReason() {
         return "Conjunction derivation";
+    }
+
+    @Override
+    public String toString() {
+        return "Show " + statement.toString() + "[";
     }
 }

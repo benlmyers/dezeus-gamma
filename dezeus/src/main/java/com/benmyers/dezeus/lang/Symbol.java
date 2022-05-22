@@ -8,7 +8,7 @@ import com.benmyers.dezeus.logic.Disjunction;
 import com.benmyers.dezeus.logic.Negation;
 
 public enum Symbol {
-    MISSING, AND, OR, IMPLIES, IFF, NOT;
+    MISSING, AND, OR, IMPLIES, IFF, NOT, THEREFORE, PREMISE_DELIMITER;
 
     public Class<? extends Statement> getStatementType() {
         switch (this) {
@@ -24,7 +24,8 @@ public enum Symbol {
                 return Conditional.class;
             case IFF:
                 return Biconditional.class;
+            default:
+                return null;
         }
-        return null;
     }
 }

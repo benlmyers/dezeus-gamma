@@ -11,4 +11,9 @@ public class Deduction {
         this.statement = statement;
         this.justification = justification;
     }
+
+    @Override
+    public String toString() {
+        return statement.toString() + " (" + justification.getAbbr() + ")";
+    }
 }

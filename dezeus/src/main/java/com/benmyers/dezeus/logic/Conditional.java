@@ -9,7 +9,7 @@ import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.derivation.ConditionalDerivation;
 import com.benmyers.dezeus.core.derivation.Derivation;
-import com.benmyers.dezeus.core.invalidity.Invalidity;
+import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.core.justification.AssumptionConditionalJustification;
 import com.benmyers.dezeus.lang.Symbol;
 
@@ -39,12 +39,12 @@ public class Conditional extends Operator {
     }
 
     @Override
-    public Derivation show(Set<Deduction> knowns) throws Invalidity {
+    public Derivation show(Set<Deduction> knowns) throws ProofNotFoundException {
         Deduction assumption = new Deduction(getAnt(), new AssumptionConditionalJustification());
         Set<Deduction> newKnowns = new HashSet<>(knowns);
         newKnowns.add(assumption);
         Derivation consDerivation = getCons().show(newKnowns);
-        return new ConditionalDerivation(assumption, consDerivation);
+        return new ConditionalDerivation(this, assumption, consDerivation);
     }
 
     @Override

@@ -1,12 +1,14 @@
 package com.benmyers.dezeus.core.derivation;
 
 import com.benmyers.dezeus.core.Deduction;
+import com.benmyers.dezeus.core.Statement;
 
 public class DirectDerivation extends Derivation {
 
     private Deduction directDeduction;
 
-    public DirectDerivation(Deduction directDeduction) {
+    public DirectDerivation(Statement show, Deduction directDeduction) {
+        super(show);
         this.directDeduction = directDeduction;
     }
 
@@ -18,5 +20,10 @@ public class DirectDerivation extends Derivation {
     @Override
     public String getReason() {
         return "Direct derivation";
+    }
+
+    @Override
+    public String toString() {
+        return "Show " + statement.toString() + "[";
     }
 }

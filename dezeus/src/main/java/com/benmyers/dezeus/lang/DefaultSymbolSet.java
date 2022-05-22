@@ -17,6 +17,8 @@ public class DefaultSymbolSet extends SymbolSet {
         map.put(Symbol.NOT, "~");
         map.put(Symbol.IFF, "<->");
         map.put(Symbol.IMPLIES, "->");
+        map.put(Symbol.THEREFORE, "|-");
+        map.put(Symbol.PREMISE_DELIMITER, ".");
     }
 
     @Override

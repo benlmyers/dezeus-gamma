@@ -14,6 +14,14 @@ public class ConditionalDerivation extends Derivation {
         this.consDerivation = consDerivation;
     }
 
+    public Deduction getAntDeduction() {
+        return antDeduction;
+    }
+
+    public Derivation getConsDerivation() {
+        return consDerivation;
+    }
+
     @Override
     public String getAbbr() {
         return "cd";

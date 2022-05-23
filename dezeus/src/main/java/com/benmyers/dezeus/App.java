@@ -128,6 +128,7 @@ public class App {
                     try {
                         Derivation derivation = p.prove();
                         System.out.println("Proved.");
+                        // derivation.print();
                     } catch (ProofNotFoundException i) {
                         System.out.println(i.getMessage());
                     }

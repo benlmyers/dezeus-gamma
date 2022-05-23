@@ -22,9 +22,4 @@ public class ConjunctionDerivation extends Derivation {
     public String getReason() {
         return "Conjunction derivation";
     }
-
-    @Override
-    public String toString() {
-        return "Show " + statement.toString() + "[";
-    }
 }

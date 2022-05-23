@@ -23,9 +23,4 @@ public class ConditionalDerivation extends Derivation {
     public String getReason() {
         return "Conditional derivation";
     }
-
-    @Override
-    public String toString() {
-        return "Show " + statement.toString() + "[";
-    }
 }

@@ -5,11 +5,13 @@ import com.benmyers.dezeus.core.justification.Justification;
 
 public abstract class Derivation implements Justification {
 
-    Statement statement;
-
-    public abstract String toString();
+    protected Statement statement;
 
     Derivation(Statement show) {
         this.statement = show;
+    }
+
+    public Statement getStatement() {
+        return statement;
     }
 }

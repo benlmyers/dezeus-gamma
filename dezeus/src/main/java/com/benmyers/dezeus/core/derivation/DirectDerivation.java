@@ -21,9 +21,4 @@ public class DirectDerivation extends Derivation {
     public String getReason() {
         return "Direct derivation";
     }
-
-    @Override
-    public String toString() {
-        return "Show " + statement.toString() + "[";
-    }
 }

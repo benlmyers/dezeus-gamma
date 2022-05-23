@@ -9,9 +9,9 @@ public class StatementUtil {
             return "";
         String str = "";
         for (T item : set) {
-            str += item.toString() + ".";
+            str += item.toString() + ". ";
         }
-        str = str.substring(0, str.length() - 1);
+        str = str.substring(0, str.length() - 2);
         return str;
     }
 }

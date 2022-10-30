@@ -13,6 +13,14 @@ public class ConjunctionDerivation extends Derivation {
         this.rightDerivation = rightDerivation;
     }
 
+    public Derivation getLeftDerivation() {
+        return leftDerivation;
+    }
+
+    public Derivation getRightDerivation() {
+        return rightDerivation;
+    }
+
     @Override
     public String getAbbr() {
         return "cjd";

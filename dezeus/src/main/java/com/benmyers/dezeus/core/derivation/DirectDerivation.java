@@ -12,6 +12,10 @@ public class DirectDerivation extends Derivation {
         this.directDeduction = directDeduction;
     }
 
+    public Deduction getDirectDeduction() {
+        return directDeduction;
+    }
+
     @Override
     public String getAbbr() {
         return "dd";

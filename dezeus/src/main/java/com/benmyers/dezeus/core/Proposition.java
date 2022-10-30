@@ -26,7 +26,7 @@ public class Proposition {
             Deduction deduction = new Deduction(statement, new PremiseJustification());
             deductions.add(deduction);
         }
-        return conclusion.show(deductions);
+        
     }
 
     @Override

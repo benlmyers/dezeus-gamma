@@ -1,6 +1,6 @@
 package com.benmyers.dezeus.core.justification;
 
-public class AssumptionIndirectJustification implements Justification {
+public class IndirectAssumptionJustification implements Justification {
 
     @Override
     public String getAbbr() {

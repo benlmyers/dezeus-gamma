@@ -1,6 +1,6 @@
 package com.benmyers.dezeus.core.justification;
 
-public class AssumptionConditionalJustification implements Justification {
+public class ConditionalAssumptionJustification implements Justification {
 
     @Override
     public String getAbbr() {

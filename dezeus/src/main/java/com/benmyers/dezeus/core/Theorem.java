@@ -7,4 +7,8 @@ public class Theorem {
     Theorem(Proposition proposition) {
         this.proposition = proposition;
     }
+
+    public Proposition getProposition() {
+        return proposition;
+    }
 }

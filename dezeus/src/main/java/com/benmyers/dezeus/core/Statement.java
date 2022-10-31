@@ -1,13 +1,5 @@
 package com.benmyers.dezeus.core;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.benmyers.dezeus.core.derivation.Deducer;
-import com.benmyers.dezeus.core.derivation.Derivation;
-import com.benmyers.dezeus.core.derivation.IndirectDerivation;
-import com.benmyers.dezeus.core.error.ProofNotFoundException;
-import com.benmyers.dezeus.core.justification.IndirectAssumptionJustification;
 import com.benmyers.dezeus.logic.Biconditional;
 import com.benmyers.dezeus.logic.Conditional;
 import com.benmyers.dezeus.logic.Conjunction;

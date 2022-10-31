@@ -5,15 +5,13 @@ import java.util.Set;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.rule.Rule;
 
-public class Deducer {
+public class Arranger {
 
     Set<Statement> knowns;
+    Rule rule;
 
-    public Deducer(Set<Statement> knowns) {
+    public Arranger(Set<Statement> knowns, Rule rule) {
         this.knowns = knowns;
-    }
-
-    public Rule findRule() {
-        return null;
+        this.rule = rule;
     }
 }

@@ -7,12 +7,11 @@ import com.benmyers.dezeus.core.Proposition;
 import com.benmyers.dezeus.core.PropositionBuilder;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementBuilder;
-import com.benmyers.dezeus.core.derivation.Derivation;
+import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.DezeusException;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.lang.DefaultSymbolSet;
 import com.benmyers.dezeus.lang.SymbolSet;
-import com.benmyers.dezeus.util.DerivationFormatter;
 
 public class App {
 
@@ -127,9 +126,8 @@ public class App {
                     return;
                 case 1:
                     try {
-                        Derivation derivation = p.prove();
-                        System.out.println("Proved.");
-                        DerivationFormatter.print(derivation);
+                        Prover prover = new Prover(p);
+                        prover.prove();
                     } catch (ProofNotFoundException i) {
                         System.out.println(i.getMessage());
                     }

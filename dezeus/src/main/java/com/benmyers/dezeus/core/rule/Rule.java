@@ -16,10 +16,10 @@ public abstract class Rule {
     Statement output;
 
     public final void writeToFile() throws IOException {
-        File file = new File(id + ".rule");
+        File file = new File("rules/" + id + ".rule");
         file.createNewFile();
         // Write the id, name, input, and output to the file
-        String value = id + "\n" + name + "\n" + input.toString() + "\n" + output.toString();
+        String value = id + "\n" + name + "\n" + input + "\n" + output;
         Files.write(file.toPath(), value.getBytes());
     }
 

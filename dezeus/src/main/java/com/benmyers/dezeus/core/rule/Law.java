@@ -21,8 +21,8 @@ public class Law extends Rule {
         super.output = new StatementBuilder(lines[3]).build();
     }
 
-    public Law(Proposition proposition) {
-        super.id = 0;
+    public Law(int id, Proposition proposition) {
+        super.id = id;
         super.name = "Unnamed Law";
         super.input = proposition.getPremises();
         super.output = proposition.getConclusion();

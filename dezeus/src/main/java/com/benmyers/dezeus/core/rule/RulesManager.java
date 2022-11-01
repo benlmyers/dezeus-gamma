@@ -19,7 +19,7 @@ public class RulesManager {
 
     public List<Rule> getAll() {
         ArrayList<Rule> rules = new ArrayList<>();
-        try (Stream<Path> paths = Files.walk(Paths.get("."))) {
+        try (Stream<Path> paths = Files.walk(Paths.get("./rules"))) {
             paths.forEach(filePath -> {
                 if (Files.isRegularFile(filePath) && filePath.toString().endsWith(".rule")) {
                     try {

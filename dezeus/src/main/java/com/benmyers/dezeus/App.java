@@ -88,13 +88,16 @@ public class App {
         System.out.println("Enter a proposition:");
         System.out.print(">> ");
         String input = scanner.nextLine();
+        System.out.println("Enter an ID value:");
+        System.out.print(">> ");
+        int id = Integer.parseInt(scanner.nextLine());
         try {
             PropositionBuilder builder = new PropositionBuilder(input);
             Proposition proposition = builder.build();
             System.out.println("-");
             System.out.println("You entered: " + proposition.toString());
             System.out.println("Saving...");
-            Law law = new Law(proposition);
+            Law law = new Law(id, proposition);
             law.writeToFile();
         } catch (Exception e) {
             System.out.println("An error occured.");

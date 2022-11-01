@@ -10,6 +10,8 @@ import com.benmyers.dezeus.core.StatementBuilder;
 import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.DezeusException;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
+import com.benmyers.dezeus.core.rule.Law;
+import com.benmyers.dezeus.core.rule.RulesManager;
 import com.benmyers.dezeus.lang.DefaultSymbolSet;
 import com.benmyers.dezeus.lang.SymbolSet;
 
@@ -26,6 +28,7 @@ public class App {
             System.out.println("What would you like to do?");
             System.out.println("[1] Symbolize");
             System.out.println("[2] Derive");
+            System.out.println("[3] Rules");
             System.out.println("[*] Exit");
             try {
                 System.out.print(">> ");
@@ -36,6 +39,9 @@ public class App {
                         break;
                     case 2:
                         derive();
+                        break;
+                    case 3:
+                        rulesMenu();
                         break;
                     default:
                         return;
@@ -50,6 +56,50 @@ public class App {
 
     public static void resetSymbols() {
         Namespace.reset();
+    }
+
+    private static void rulesMenu() {
+        System.out.println("-");
+        System.out.println("[1] List All Rules");
+        System.out.println("[2] Define Law");
+        System.out.println("[3] Apply a Rule");
+        System.out.println("[*] Menu");
+        try {
+            System.out.print(">> ");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1:
+                    // Create manager in current directory
+                    RulesManager manager = new RulesManager("/");
+                    manager.listAll();
+                    break;
+                case 2:
+                    defineRule();
+                    break;
+                default:
+                    return;
+            }
+        } catch (NumberFormatException e) {
+            symbolize();
+        }
+    }
+
+    private static void defineRule() {
+        System.out.println("Enter a proposition:");
+        System.out.print(">> ");
+        String input = scanner.nextLine();
+        try {
+            PropositionBuilder builder = new PropositionBuilder(input);
+            Proposition proposition = builder.build();
+            System.out.println("-");
+            System.out.println("You entered: " + proposition.toString());
+            System.out.println("Saving...");
+            Law law = new Law(proposition);
+            law.writeToFile();
+        } catch (Exception e) {
+            System.out.println("An error occured.");
+            e.printStackTrace();
+        }
     }
 
     private static void symbolize() {

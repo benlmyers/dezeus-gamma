@@ -1,16 +1,22 @@
 package com.benmyers.dezeus;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
+import com.benmyers.dezeus.core.Deduction;
 import com.benmyers.dezeus.core.Namespace;
 import com.benmyers.dezeus.core.Proposition;
 import com.benmyers.dezeus.core.PropositionBuilder;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementBuilder;
+import com.benmyers.dezeus.core.StatementGroup;
+import com.benmyers.dezeus.core.derivation.Deriver;
 import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.DezeusException;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.core.rule.Law;
+import com.benmyers.dezeus.core.rule.Rule;
 import com.benmyers.dezeus.core.rule.RulesManager;
 import com.benmyers.dezeus.lang.DefaultSymbolSet;
 import com.benmyers.dezeus.lang.SymbolSet;
@@ -70,17 +76,67 @@ public class App {
             switch (choice) {
                 case 1:
                     // Create manager in current directory
-                    RulesManager manager = new RulesManager("/");
+                    RulesManager manager = new RulesManager();
                     manager.listAll();
                     break;
                 case 2:
                     defineRule();
+                    break;
+                case 3:
+                    applyRule();
                     break;
                 default:
                     return;
             }
         } catch (NumberFormatException e) {
             symbolize();
+        }
+    }
+
+    private static void applyRuleMenu(StatementGroup statements) {
+        System.out.println("-");
+        System.out.println("[1] Apply Specific Rule");
+        System.out.println("[*] Menu");
+        try {
+            System.out.print(">> ");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the ID of the rule you wish to apply:");
+                    System.out.print(">> ");
+                    int id = Integer.parseInt(scanner.nextLine());
+                    Rule rule = new RulesManager().get(id);
+                    System.out.println("You chose:" + rule);
+                    Deriver deriver = new Deriver(statements, rule);
+                    Deduction deduction = deriver.derive();
+                    System.out.println(deduction);
+                    break;
+                default:
+                    return;
+            }
+        } catch (NumberFormatException e) {
+            symbolize();
+        }
+    }
+
+    private static void applyRule() {
+        System.out.println("Enter a series of statements:");
+        System.out.print(">> ");
+        String input = scanner.nextLine();
+        // Get set of inputs period-seperated
+        String[] inputs = input.split("\\.");
+        // For each input, create a statement using StatementBuilder
+        StatementGroup statements = new StatementGroup();
+        try {
+            for (String statement : inputs) {
+                statements.add(new StatementBuilder(statement).build());
+            }
+            System.out.println("-");
+            System.out.println("You entered: " + statements);
+            applyRuleMenu(statements);
+        } catch (DezeusException e) {
+            System.out.println("An error occured.");
+            e.printStackTrace();
         }
     }
 

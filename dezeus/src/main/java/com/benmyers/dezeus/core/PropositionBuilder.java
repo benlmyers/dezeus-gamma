@@ -17,6 +17,7 @@ public class PropositionBuilder {
     }
 
     public Proposition build() throws DezeusException {
+        // TODO: Add support for multiple statements in the conclusion
         String thereforeSymbol = App.symbols.get(Symbol.THEREFORE);
         thereforeSymbol = "\\" + thereforeSymbol;
         String[] split = input.split(thereforeSymbol);
@@ -28,7 +29,7 @@ public class PropositionBuilder {
         String delimiter = App.symbols.get(Symbol.PREMISE_DELIMITER);
         delimiter = "\\" + delimiter;
         split = premisesString.split(delimiter);
-        Set<Statement> premises = new HashSet<>();
+        StatementGroup premises = new StatementGroup();
         for (String item : split) {
             StatementBuilder builder = new StatementBuilder(item);
             Statement premise = builder.build();

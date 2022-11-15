@@ -2,12 +2,10 @@ package com.benmyers.dezeus.core.rule;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.benmyers.dezeus.core.Proposition;
-import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementBuilder;
+import com.benmyers.dezeus.core.StatementGroup;
 
 public class Law extends Rule {
 
@@ -15,16 +13,21 @@ public class Law extends Rule {
         String[] lines = Files.readAllLines(file.toPath()).toArray(new String[0]);
         super.id = Integer.parseInt(lines[0]);
         super.name = lines[1];
-        Set<Statement> set = new HashSet<>();
-        set.add(new StatementBuilder(lines[2]).build());
-        super.input = set;
-        super.output = new StatementBuilder(lines[3]).build();
+        String input = lines[2];
+        input = input.substring(1, input.length() - 1);
+        String[] inputStatements = input.split(", ");
+        StatementGroup group = new StatementGroup();
+        for (String statement : inputStatements) {
+            group.add(new StatementBuilder(statement).build());
+        }
+        super.input = group;
+        super.output = new StatementGroup(new StatementBuilder(lines[3]).build());
     }
 
     public Law(int id, Proposition proposition) {
         super.id = id;
         super.name = "Unnamed Law";
         super.input = proposition.getPremises();
-        super.output = proposition.getConclusion();
+        super.output = new StatementGroup(proposition.getConclusion());
     }
 }

@@ -1,6 +1,11 @@
 package com.benmyers.dezeus.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.benmyers.dezeus.App;
+import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.lang.Symbol;
@@ -28,6 +33,20 @@ public class Conditional extends Operator {
 
     public Statement getCons() {
         return cons;
+    }
+
+    @Override
+    public List<Atom> getAtoms() {
+        List<Atom> atoms = new ArrayList<>();
+        atoms.addAll(ant.getAtoms());
+        atoms.addAll(cons.getAtoms());
+        return atoms;
+    }
+
+    @Override
+    public void setAtoms(Map<Atom, Statement> map) {
+        ant = map.get(ant);
+        cons = map.get(cons);
     }
 
     @Override

@@ -6,9 +6,9 @@ import com.benmyers.dezeus.core.Statement;
 
 public class Simplifier {
 
-    Set<Statement> derivations;
+    StatementGroup derivations;
 
-    public Simplifier(Set<Statement> derivations) {
+    public Simplifier(StatementGroup derivations) {
         this.derivations = derivations;
     }
 }

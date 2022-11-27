@@ -161,8 +161,15 @@ public class StatementGroup extends Statement implements Collection<Statement> {
 
     @Override
     public void setAtoms(Map<Atom, Statement> map) {
+        Set<Statement> newStatements = new HashSet<>();
         for (Statement statement : statements) {
-            statement.setAtoms(map);
+            if (statement instanceof Atom) {
+                newStatements.add(map.get(statement));
+            } else {
+                statement.setAtoms(map);
+                newStatements.add(statement);
+            }
         }
+        this.statements = newStatements;
     }
 }

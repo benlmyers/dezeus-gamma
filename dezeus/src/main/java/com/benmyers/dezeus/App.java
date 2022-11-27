@@ -1,9 +1,10 @@
 package com.benmyers.dezeus;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
+import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Deduction;
 import com.benmyers.dezeus.core.Namespace;
 import com.benmyers.dezeus.core.Proposition;
@@ -53,6 +54,8 @@ public class App {
                         return;
                 }
             } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
                 return;
@@ -69,6 +72,7 @@ public class App {
         System.out.println("[1] List All Rules");
         System.out.println("[2] Define Law");
         System.out.println("[3] Apply a Rule");
+        System.out.println("[4] Instantiate a Rule");
         System.out.println("[*] Menu");
         try {
             System.out.print(">> ");
@@ -85,6 +89,29 @@ public class App {
                 case 3:
                     applyRule();
                     break;
+                case 4:
+                    try {
+                        System.out.println("Enter the ID of the rule you wish to instantiate:");
+                        System.out.print(">> ");
+                        int id = Integer.parseInt(scanner.nextLine());
+                        Rule rule = new RulesManager().get(id);
+                        System.out.println("You chose: " + rule);
+                        List<Atom> atoms = rule.getAtoms();
+                        List<Statement> instantiation = new ArrayList<>();
+                        System.out.println("This rule has " + atoms.size() + " parameters: " + atoms);
+                        // Repeat until no errors
+                        System.out.println("Enter the values for each parameter:");
+                        for (int i = 0; i < atoms.size(); i++) {
+                            System.out.print(">> " + atoms.get(i) + " := ");
+                            String value = scanner.nextLine();
+                            instantiation.add(new StatementBuilder(value).build());
+                        }
+                        rule.instantiate(instantiation);
+                        System.out.println("Instantiated rule: " + rule);
+                    } catch (DezeusException e) {
+                        System.out.println("Invalid ID");
+                    }
+                    break;
                 default:
                     return;
             }
@@ -97,6 +124,8 @@ public class App {
         System.out.println("-");
         System.out.println("[1] Apply Specific Rule");
         System.out.println("[*] Menu");
+        int id;
+        Rule rule;
         try {
             System.out.print(">> ");
             int choice = Integer.parseInt(scanner.nextLine());
@@ -104,8 +133,8 @@ public class App {
                 case 1:
                     System.out.println("Enter the ID of the rule you wish to apply:");
                     System.out.print(">> ");
-                    int id = Integer.parseInt(scanner.nextLine());
-                    Rule rule = new RulesManager().get(id);
+                    id = Integer.parseInt(scanner.nextLine());
+                    rule = new RulesManager().get(id);
                     System.out.println("You chose:" + rule);
                     Deriver deriver = new Deriver(statements, rule);
                     Deduction deduction = deriver.derive();

@@ -37,9 +37,7 @@ public abstract class Rule implements Cloneable {
 
     @Override
     public String toString() {
-        // Get a string representing the rule's type
-        String type = this.getClass().getSimpleName();
-        return id + " [" + type + "]\n" + name + "\n" + input + " -> " + output;
+        return "[" + id + "] " + input + " |- " + output;
     }
 
     public int getId() {
@@ -74,12 +72,8 @@ public abstract class Rule implements Cloneable {
             for (int i = 0; i < atoms.size(); i++) {
                 map.put(atoms.get(i), arguments.get(i));
             }
-            for (Statement statement : rule.input) {
-                statement.setAtoms(map);
-            }
-            for (Statement statement : rule.output) {
-                statement.setAtoms(map);
-            }
+            rule.input.setAtoms(map);
+            rule.output.setAtoms(map);
             return rule;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();

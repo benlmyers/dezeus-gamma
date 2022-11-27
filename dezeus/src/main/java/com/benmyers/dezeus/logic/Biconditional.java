@@ -45,12 +45,6 @@ public class Biconditional extends Operator {
     }
 
     @Override
-    public void setAtoms(Map<Atom, Statement> map) {
-        a = map.get(a);
-        b = map.get(b);
-    }
-
-    @Override
     public String toString() {
         return wrapString(a) + App.symbols.get(Symbol.IFF) + wrapString(b);
     }
@@ -63,5 +57,19 @@ public class Biconditional extends Operator {
     @Override
     public String toLaTeX() {
         return wrapLaTeX(a) + " \\Leftrightarrow " + wrapLaTeX(b);
+    }
+
+    @Override
+    public void setAtoms(Map<Atom, Statement> map) {
+        if (a instanceof Atom) {
+            a = map.get(a);
+        } else {
+            a.setAtoms(map);
+        }
+        if (b instanceof Atom) {
+            b = map.get(b);
+        } else {
+            b.setAtoms(map);
+        }
     }
 }

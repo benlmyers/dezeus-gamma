@@ -34,11 +34,6 @@ public class Negation extends Operator {
     }
 
     @Override
-    public void setAtoms(Map<Atom, Statement> map) {
-        s = map.get(s);
-    }
-
-    @Override
     public String toString() {
         return App.symbols.get(Symbol.NOT) + wrapString(s);
     }
@@ -51,5 +46,14 @@ public class Negation extends Operator {
     @Override
     public String toLaTeX() {
         return "\\neg" + wrapLaTeX(s);
+    }
+
+    @Override
+    public void setAtoms(Map<Atom, Statement> map) {
+        if (s instanceof Atom) {
+            s = map.get(s);
+        } else {
+            s.setAtoms(map);
+        }
     }
 }

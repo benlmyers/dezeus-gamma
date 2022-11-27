@@ -1,8 +1,6 @@
 package com.benmyers.dezeus.core.derivation;
 
-import java.util.Set;
-
-import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.StatementGroup;
 
 public class Simplifier {
 

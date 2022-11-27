@@ -40,6 +40,11 @@ public class Atom extends Statement {
     }
 
     @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
     public List<Atom> getAtoms() {
         List<Atom> atoms = new ArrayList<>();
         atoms.add(this);
@@ -48,7 +53,9 @@ public class Atom extends Statement {
 
     @Override
     public void setAtoms(Map<Atom, Statement> map) {
-        // Do nothing
+        Atom newAtom = (Atom) map.get(this);
+        name = newAtom.name;
+        latex = newAtom.latex;
     }
 
     @Override

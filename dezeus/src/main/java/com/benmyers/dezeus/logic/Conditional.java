@@ -44,12 +44,6 @@ public class Conditional extends Operator {
     }
 
     @Override
-    public void setAtoms(Map<Atom, Statement> map) {
-        ant = map.get(ant);
-        cons = map.get(cons);
-    }
-
-    @Override
     public String toString() {
         return wrapString(ant) + App.symbols.get(Symbol.IMPLIES) + wrapString(cons);
     }
@@ -62,5 +56,19 @@ public class Conditional extends Operator {
     @Override
     public String toLaTeX() {
         return wrapLaTeX(ant) + " \\Rightarrow " + wrapLaTeX(cons);
+    }
+
+    @Override
+    public void setAtoms(Map<Atom, Statement> map) {
+        if (ant instanceof Atom) {
+            ant = map.get(ant);
+        } else {
+            ant.setAtoms(map);
+        }
+        if (cons instanceof Atom) {
+            cons = map.get(cons);
+        } else {
+            cons.setAtoms(map);
+        }
     }
 }

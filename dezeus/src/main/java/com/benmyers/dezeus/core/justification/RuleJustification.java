@@ -12,11 +12,11 @@ public class RuleJustification implements Justification {
 
     @Override
     public String getAbbr() {
-        return "pr";
+        return "[" + rule.getId() + "]";
     }
 
     @Override
     public String getReason() {
-        return "Premise provided";
+        return rule.getName();
     }
 }

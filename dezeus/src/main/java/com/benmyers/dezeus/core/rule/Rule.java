@@ -35,6 +35,10 @@ public abstract class Rule implements Cloneable {
         Files.write(file.toPath(), value.getBytes());
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "[" + id + "] " + input + " |- " + output;

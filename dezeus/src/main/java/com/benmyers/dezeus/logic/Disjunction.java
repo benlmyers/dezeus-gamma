@@ -8,7 +8,6 @@ import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
-import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Disjunction extends Operator {

@@ -1,8 +1,5 @@
 package com.benmyers.dezeus.core;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.error.DezeusException;
 import com.benmyers.dezeus.core.error.ImproperPropositionException;

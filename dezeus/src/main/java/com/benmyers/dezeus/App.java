@@ -1,18 +1,26 @@
 package com.benmyers.dezeus;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import com.benmyers.dezeus.core.Atom;
+import com.benmyers.dezeus.core.Deduction;
 import com.benmyers.dezeus.core.Namespace;
 import com.benmyers.dezeus.core.Proposition;
 import com.benmyers.dezeus.core.PropositionBuilder;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementBuilder;
-import com.benmyers.dezeus.core.derivation.Derivation;
+import com.benmyers.dezeus.core.StatementGroup;
+import com.benmyers.dezeus.core.derivation.Deriver;
+import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.DezeusException;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
+import com.benmyers.dezeus.core.rule.Law;
+import com.benmyers.dezeus.core.rule.Rule;
+import com.benmyers.dezeus.core.rule.RulesManager;
 import com.benmyers.dezeus.lang.DefaultSymbolSet;
 import com.benmyers.dezeus.lang.SymbolSet;
-import com.benmyers.dezeus.util.DerivationFormatter;
 
 public class App {
 
@@ -27,6 +35,7 @@ public class App {
             System.out.println("What would you like to do?");
             System.out.println("[1] Symbolize");
             System.out.println("[2] Derive");
+            System.out.println("[3] Rules");
             System.out.println("[*] Exit");
             try {
                 System.out.print(">> ");
@@ -38,10 +47,15 @@ public class App {
                     case 2:
                         derive();
                         break;
+                    case 3:
+                        rulesMenu();
+                        break;
                     default:
                         return;
                 }
             } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
                 return;
@@ -51,6 +65,129 @@ public class App {
 
     public static void resetSymbols() {
         Namespace.reset();
+    }
+
+    private static void rulesMenu() {
+        System.out.println("-");
+        System.out.println("[1] List All Rules");
+        System.out.println("[2] Define Law");
+        System.out.println("[3] Apply a Rule");
+        System.out.println("[4] Instantiate a Rule");
+        System.out.println("[*] Menu");
+        try {
+            System.out.print(">> ");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1:
+                    // Create manager in current directory
+                    RulesManager manager = new RulesManager();
+                    manager.listAll();
+                    break;
+                case 2:
+                    defineRule();
+                    break;
+                case 3:
+                    applyRule();
+                    break;
+                case 4:
+                    try {
+                        System.out.println("Enter the ID of the rule you wish to instantiate:");
+                        System.out.print(">> ");
+                        int id = Integer.parseInt(scanner.nextLine());
+                        Rule rule = new RulesManager().get(id);
+                        System.out.println("You chose: " + rule);
+                        List<Atom> atoms = rule.getAtoms();
+                        List<Statement> instantiation = new ArrayList<>();
+                        System.out.println("This rule has " + atoms.size() + " parameters: " + atoms);
+                        // Repeat until no errors
+                        System.out.println("Enter the values for each parameter:");
+                        for (int i = 0; i < atoms.size(); i++) {
+                            System.out.print(">> " + atoms.get(i) + " := ");
+                            String value = scanner.nextLine();
+                            instantiation.add(new StatementBuilder(value).build());
+                        }
+                        rule.instantiate(instantiation);
+                        System.out.println("Instantiated rule: " + rule);
+                    } catch (DezeusException e) {
+                        System.out.println("Invalid ID");
+                    }
+                    break;
+                default:
+                    return;
+            }
+        } catch (NumberFormatException e) {
+            symbolize();
+        }
+    }
+
+    private static void applyRuleMenu(StatementGroup statements) {
+        System.out.println("-");
+        System.out.println("[1] Apply Specific Rule");
+        System.out.println("[*] Menu");
+        int id;
+        Rule rule;
+        try {
+            System.out.print(">> ");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the ID of the rule you wish to apply:");
+                    System.out.print(">> ");
+                    id = Integer.parseInt(scanner.nextLine());
+                    rule = new RulesManager().get(id);
+                    System.out.println("You chose:" + rule);
+                    Deriver deriver = new Deriver(statements, rule);
+                    Deduction deduction = deriver.derive();
+                    System.out.println(deduction);
+                    break;
+                default:
+                    return;
+            }
+        } catch (NumberFormatException e) {
+            symbolize();
+        }
+    }
+
+    private static void applyRule() {
+        System.out.println("Enter a series of statements:");
+        System.out.print(">> ");
+        String input = scanner.nextLine();
+        // Get set of inputs period-seperated
+        String[] inputs = input.split("\\.");
+        // For each input, create a statement using StatementBuilder
+        StatementGroup statements = new StatementGroup();
+        try {
+            for (String statement : inputs) {
+                statements.add(new StatementBuilder(statement).build());
+            }
+            System.out.println("-");
+            System.out.println("You entered: " + statements);
+            applyRuleMenu(statements);
+        } catch (DezeusException e) {
+            System.out.println("An error occured.");
+            e.printStackTrace();
+        }
+    }
+
+    private static void defineRule() {
+        System.out.println("Enter a proposition:");
+        System.out.print(">> ");
+        String input = scanner.nextLine();
+        System.out.println("Enter an ID value:");
+        System.out.print(">> ");
+        int id = Integer.parseInt(scanner.nextLine());
+        try {
+            PropositionBuilder builder = new PropositionBuilder(input);
+            Proposition proposition = builder.build();
+            System.out.println("-");
+            System.out.println("You entered: " + proposition.toString());
+            System.out.println("Saving...");
+            Law law = new Law(id, proposition);
+            law.writeToFile();
+        } catch (Exception e) {
+            System.out.println("An error occured.");
+            e.printStackTrace();
+        }
     }
 
     private static void symbolize() {
@@ -127,9 +264,8 @@ public class App {
                     return;
                 case 1:
                     try {
-                        Derivation derivation = p.prove();
-                        System.out.println("Proved.");
-                        DerivationFormatter.print(derivation);
+                        Prover prover = new Prover(p);
+                        prover.prove();
                     } catch (ProofNotFoundException i) {
                         System.out.println(i.getMessage());
                     }

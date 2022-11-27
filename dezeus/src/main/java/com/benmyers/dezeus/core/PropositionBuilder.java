@@ -25,17 +25,8 @@ public class PropositionBuilder {
         String premisesString = split[0];
         String conclusionString = split[1];
         split = null;
-        String delimiter = App.symbols.get(Symbol.PREMISE_DELIMITER);
-        delimiter = "\\" + delimiter;
-        split = premisesString.split(delimiter);
-        Set<Statement> premises = new HashSet<>();
-        for (String item : split) {
-            StatementBuilder builder = new StatementBuilder(item);
-            Statement premise = builder.build();
-            premises.add(premise);
-        }
-        StatementBuilder builder = new StatementBuilder(conclusionString);
-        Statement conclusion = builder.build();
+        StatementGroup premises = new StatementBuilder(premisesString).buildGroup();
+        StatementGroup conclusion = new StatementBuilder(conclusionString).buildGroup();
         return new Proposition(premises, conclusion);
     }
 }

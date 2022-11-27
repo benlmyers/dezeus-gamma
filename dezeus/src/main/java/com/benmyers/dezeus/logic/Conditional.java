@@ -1,16 +1,13 @@
 package com.benmyers.dezeus.logic;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import com.benmyers.dezeus.App;
-import com.benmyers.dezeus.core.Deduction;
+import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
-import com.benmyers.dezeus.core.derivation.ConditionalDerivation;
-import com.benmyers.dezeus.core.derivation.Derivation;
-import com.benmyers.dezeus.core.error.ProofNotFoundException;
-import com.benmyers.dezeus.core.justification.ConditionalAssumptionJustification;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Conditional extends Operator {
@@ -39,12 +36,11 @@ public class Conditional extends Operator {
     }
 
     @Override
-    public Derivation show(Set<Deduction> knowns) throws ProofNotFoundException {
-        Deduction assumption = new Deduction(getAnt(), new ConditionalAssumptionJustification());
-        Set<Deduction> newKnowns = new HashSet<>(knowns);
-        newKnowns.add(assumption);
-        Derivation consDerivation = getCons().show(newKnowns);
-        return new ConditionalDerivation(this, assumption, consDerivation);
+    public List<Atom> getAtoms() {
+        List<Atom> atoms = new ArrayList<>();
+        atoms.addAll(ant.getAtoms());
+        atoms.addAll(cons.getAtoms());
+        return atoms;
     }
 
     @Override
@@ -60,5 +56,19 @@ public class Conditional extends Operator {
     @Override
     public String toLaTeX() {
         return wrapLaTeX(ant) + " \\Rightarrow " + wrapLaTeX(cons);
+    }
+
+    @Override
+    public void setAtoms(Map<Atom, Statement> map) {
+        if (ant instanceof Atom) {
+            ant = map.get(ant);
+        } else {
+            ant.setAtoms(map);
+        }
+        if (cons instanceof Atom) {
+            cons = map.get(cons);
+        } else {
+            cons.setAtoms(map);
+        }
     }
 }

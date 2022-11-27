@@ -1,6 +1,11 @@
 package com.benmyers.dezeus.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.benmyers.dezeus.App;
+import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.lang.Symbol;
@@ -22,6 +27,13 @@ public class Negation extends Operator {
     }
 
     @Override
+    public List<Atom> getAtoms() {
+        List<Atom> atoms = new ArrayList<>();
+        atoms.addAll(s.getAtoms());
+        return atoms;
+    }
+
+    @Override
     public String toString() {
         return App.symbols.get(Symbol.NOT) + wrapString(s);
     }
@@ -34,5 +46,14 @@ public class Negation extends Operator {
     @Override
     public String toLaTeX() {
         return "\\neg" + wrapLaTeX(s);
+    }
+
+    @Override
+    public void setAtoms(Map<Atom, Statement> map) {
+        if (s instanceof Atom) {
+            s = map.get(s);
+        } else {
+            s.setAtoms(map);
+        }
     }
 }

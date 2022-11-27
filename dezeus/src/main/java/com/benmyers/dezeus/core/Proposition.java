@@ -4,35 +4,47 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.benmyers.dezeus.App;
-import com.benmyers.dezeus.core.derivation.Derivation;
+import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.core.justification.PremiseJustification;
+import com.benmyers.dezeus.core.rule.Theorem;
 import com.benmyers.dezeus.lang.Symbol;
-import com.benmyers.dezeus.util.StatementUtil;
 
 public class Proposition {
 
-    private Set<Statement> premises;
-    private Statement conclusion;
+    private StatementGroup premises;
+    private StatementGroup conclusion;
 
-    public Proposition(Set<Statement> premises, Statement conclusion) {
+    public Proposition(StatementGroup premises, StatementGroup conclusion) {
         this.premises = premises;
         this.conclusion = conclusion;
     }
 
-    public Derivation prove() throws ProofNotFoundException {
-        Set<Deduction> deductions = new HashSet<>();
-        for (Statement statement : premises) {
-            Deduction deduction = new Deduction(statement, new PremiseJustification());
-            deductions.add(deduction);
-        }
-        
-    }
-
     @Override
     public String toString() {
-        String premiseString = StatementUtil.setToString(premises);
+        String premiseString = premises.toString();
         String conclusionString = conclusion.toString();
         return premiseString + " " + App.symbols.get(Symbol.THEREFORE) + " " + conclusionString;
+    }
+
+    public StatementGroup getPremises() {
+        return premises;
+    }
+
+    public Set<Deduction> getPremisesAsDeductions() {
+        Set<Deduction> set = new HashSet<>();
+        for (Statement statement : premises) {
+            set.add(new Deduction(statement, new PremiseJustification()));
+        }
+        return set;
+    }
+
+    public Statement getConclusion() {
+        return conclusion;
+    }
+
+    public Theorem prove() throws ProofNotFoundException {
+        Prover prover = new Prover(this);
+        return new Theorem(this, prover.prove());
     }
 }

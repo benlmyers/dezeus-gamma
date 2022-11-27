@@ -24,6 +24,16 @@ public class StatementBuilder {
         this.input = input;
     }
 
+    public StatementGroup buildGroup() throws DezeusException {
+        StatementGroup group = new StatementGroup();
+        String[] split = input.split(App.symbols.get(Symbol.PREMISE_DELIMITER));
+        for (String string : split) {
+            StatementBuilder builder = new StatementBuilder(string);
+            group.add(builder.build());
+        }
+        return group;
+    }
+
     @SuppressWarnings("unchecked")
     public Statement build() throws DezeusException {
         input = removeSpaces(input);

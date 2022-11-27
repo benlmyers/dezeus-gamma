@@ -1,14 +1,13 @@
 package com.benmyers.dezeus.logic;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import com.benmyers.dezeus.App;
-import com.benmyers.dezeus.core.Deduction;
+import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.Statement;
-import com.benmyers.dezeus.core.derivation.ConjunctionDerivation;
-import com.benmyers.dezeus.core.derivation.Derivation;
-import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Conjunction extends Operator {
@@ -37,10 +36,11 @@ public class Conjunction extends Operator {
     }
 
     @Override
-    public Derivation show(Set<Deduction> knowns) throws ProofNotFoundException {
-        Derivation leftDerivation = getLeft().show(knowns);
-        Derivation rightDerivation = getRight().show(knowns);
-        return new ConjunctionDerivation(this, leftDerivation, rightDerivation);
+    public List<Atom> getAtoms() {
+        List<Atom> atoms = new ArrayList<>();
+        atoms.addAll(a.getAtoms());
+        atoms.addAll(b.getAtoms());
+        return atoms;
     }
 
     @Override
@@ -56,5 +56,19 @@ public class Conjunction extends Operator {
     @Override
     public String toLaTeX() {
         return wrapLaTeX(a) + " \\land " + wrapLaTeX(b);
+    }
+
+    @Override
+    public void setAtoms(Map<Atom, Statement> map) {
+        if (a instanceof Atom) {
+            a = map.get(a);
+        } else {
+            a.setAtoms(map);
+        }
+        if (b instanceof Atom) {
+            b = map.get(b);
+        } else {
+            b.setAtoms(map);
+        }
     }
 }

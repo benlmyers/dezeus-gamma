@@ -36,6 +36,15 @@ public class Conjunction extends Operator {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Conjunction) {
+            Conjunction statement = (Conjunction) obj;
+            return statement.getLeft().equals(a) && statement.getRight().equals(b);
+        }
+        return false;
+    }
+
+    @Override
     public List<Atom> getAtoms() {
         List<Atom> atoms = new ArrayList<>();
         atoms.addAll(a.getAtoms());

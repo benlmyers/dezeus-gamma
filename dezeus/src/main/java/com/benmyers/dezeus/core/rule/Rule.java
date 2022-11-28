@@ -85,11 +85,8 @@ public abstract class Rule implements Cloneable {
         }
     }
 
-    public Set<Deduction> apply(StatementGroup input, boolean allowSubset) throws ApplyMismatchException {
-        if (allowSubset && !this.input.containsAll(input)) {
-            throw new ApplyMismatchException();
-        }
-        if (!allowSubset && !this.input.equals(input)) {
+    public Set<Deduction> apply(StatementGroup input) throws ApplyMismatchException {
+        if(!input.equals(this.input)) {
             throw new ApplyMismatchException();
         }
         Set<Deduction> deductions = new HashSet<>();

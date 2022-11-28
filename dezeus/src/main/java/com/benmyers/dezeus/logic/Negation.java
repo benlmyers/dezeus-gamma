@@ -26,6 +26,19 @@ public class Negation extends Operator {
         return Symbol.NOT;
     }
 
+    public Statement getNegatedStatement() {
+        return s;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Negation) {
+            Negation statement = (Negation) obj;
+            return statement.getNegatedStatement().equals(s);
+        }
+        return false;
+    }
+
     @Override
     public List<Atom> getAtoms() {
         List<Atom> atoms = new ArrayList<>();

@@ -113,7 +113,20 @@ public class StatementGroup extends Statement implements Collection<Statement> {
         return string.substring(0, string.length() - 2);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof StatementGroup) {
+            StatementGroup group = (StatementGroup) obj;
+            return group.getStatementSet().equals(statements);
+        }
+        return false;
+    }
+
     // Utility
+
+    public Set<Statement> getStatementSet() {
+        return statements;
+    }
 
     public Statement toStatement() {
         if (size() == 0)

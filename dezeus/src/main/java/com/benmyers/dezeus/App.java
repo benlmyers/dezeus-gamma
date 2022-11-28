@@ -3,6 +3,7 @@ package com.benmyers.dezeus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Deduction;
@@ -12,8 +13,8 @@ import com.benmyers.dezeus.core.PropositionBuilder;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementBuilder;
 import com.benmyers.dezeus.core.StatementGroup;
-import com.benmyers.dezeus.core.derivation.Deriver;
 import com.benmyers.dezeus.core.derivation.Prover;
+import com.benmyers.dezeus.core.error.ApplyMismatchException;
 import com.benmyers.dezeus.core.error.DezeusException;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.core.rule.Law;
@@ -136,9 +137,12 @@ public class App {
                     id = Integer.parseInt(scanner.nextLine());
                     rule = new RulesManager().get(id);
                     System.out.println("You chose:" + rule);
-                    Deriver deriver = new Deriver(statements, rule);
-                    Deduction deduction = deriver.derive();
-                    System.out.println(deduction);
+                    try {
+                        Set<Deduction> deduction = rule.apply(statements);
+                        System.out.println(deduction);
+                    } catch (ApplyMismatchException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     return;

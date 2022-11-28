@@ -36,6 +36,15 @@ public class Conditional extends Operator {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Conditional) {
+            Conditional statement = (Conditional) obj;
+            return statement.getAnt().equals(ant) && statement.getCons().equals(cons);
+        }
+        return false;
+    }
+
+    @Override
     public List<Atom> getAtoms() {
         List<Atom> atoms = new ArrayList<>();
         atoms.addAll(ant.getAtoms());

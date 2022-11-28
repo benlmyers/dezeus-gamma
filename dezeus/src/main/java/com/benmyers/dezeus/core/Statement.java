@@ -21,6 +21,14 @@ public abstract class Statement {
 
     public abstract void setAtoms(Map<Atom, Statement> map);
 
+    @Override
+    public abstract boolean equals(Object obj);
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
+
     public Conjunction and(Statement b) {
         return new Conjunction(this, b);
     }

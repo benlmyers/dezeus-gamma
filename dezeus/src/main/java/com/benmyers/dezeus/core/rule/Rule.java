@@ -86,7 +86,7 @@ public abstract class Rule implements Cloneable {
     }
 
     public Set<Deduction> apply(StatementGroup input) throws ApplyMismatchException {
-        if(!input.equals(this.input)) {
+        if (!input.equals(this.input)) {
             throw new ApplyMismatchException();
         }
         Set<Deduction> deductions = new HashSet<>();

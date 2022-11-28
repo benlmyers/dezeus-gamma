@@ -7,6 +7,7 @@ import java.util.Map;
 import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
+import com.benmyers.dezeus.core.ParameterizedClass;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.lang.Symbol;
 
@@ -79,5 +80,13 @@ public class Conjunction extends Operator {
         } else {
             b.setAtoms(map);
         }
+    }
+
+    @Override
+    public ParameterizedClass<? extends Statement> getParameterizedClass() {
+        List<ParameterizedClass<? extends Statement>> list = new ArrayList<>();
+        list.add(a.getParameterizedClass());
+        list.add(b.getParameterizedClass());
+        return new ParameterizedClass<>(Conjunction.class, list);
     }
 }

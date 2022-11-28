@@ -7,6 +7,7 @@ import java.util.Map;
 import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
+import com.benmyers.dezeus.core.ParameterizedClass;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.lang.Symbol;
 
@@ -68,5 +69,12 @@ public class Negation extends Operator {
         } else {
             s.setAtoms(map);
         }
+    }
+
+    @Override
+    public ParameterizedClass<? extends Statement> getParameterizedClass() {
+        List<ParameterizedClass<? extends Statement>> list = new ArrayList<>();
+        list.add(s.getParameterizedClass());
+        return new ParameterizedClass<>(Negation.class, list);
     }
 }

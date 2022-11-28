@@ -1,9 +1,12 @@
 package com.benmyers.dezeus.core.derivation;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.rule.Rule;
@@ -18,12 +21,15 @@ public class Arranger {
         this.rule = rule;
     }
 
-    public List<Statement> arrange() {
-        // Return only the relevant knowns to the rule.
-        Set<Class<? extends Statement>> inputClasses = rule.getInputClasses();
-        List<Statement> relevantKnowns = knowns.stream()
-                .filter(known -> inputClasses.contains(known.getClass()))
-                .collect(Collectors.toList());
-        return relevantKnowns;
-    }
+    // TODO: Implement
+    // public Map<Atom, Statement> arrange(StatementGroup relevantStatements, Rule
+    // rule) {
+    // List<Statement> ruleInput = new ArrayList<>(rule.getInput());
+    // List<Class<? extends Statement>> ruleInputTypes = new ArrayList<>();
+    // for (Statement statement : ruleInput) {
+    // ruleInputTypes.add(statement.get());
+    // }
+    // List<StatementGroup> possibleArrangements =
+    // relevantStatements.getPermutations();
+    // }
 }

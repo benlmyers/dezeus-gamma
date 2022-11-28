@@ -185,4 +185,34 @@ public class StatementGroup extends Statement implements Collection<Statement> {
         }
         this.statements = newStatements;
     }
+
+    public List<StatementGroup> getPermutations() {
+        List<StatementGroup> groups = new ArrayList<>();
+        if (size() == 0)
+            return groups;
+        if (size() == 1) {
+            groups.add(this);
+            return groups;
+        }
+        for (Statement statement : statements) {
+            StatementGroup group = new StatementGroup();
+            group.addAll(statements);
+            group.remove(statement);
+            List<StatementGroup> subGroups = group.getPermutations();
+            for (StatementGroup subGroup : subGroups) {
+                subGroup.add(statement);
+                groups.add(subGroup);
+            }
+        }
+        return groups;
+    }
+
+    @Override
+    public ParameterizedClass<? extends Statement> getParameterizedClass() {
+        List<ParameterizedClass<? extends Statement>> list = new ArrayList<>();
+        for (Statement s : statements) {
+            list.add(s.getParameterizedClass());
+        }
+        return new ParameterizedClass<>(StatementGroup.class, list);
+    }
 }

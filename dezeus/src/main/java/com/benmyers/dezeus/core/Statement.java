@@ -21,6 +21,8 @@ public abstract class Statement {
 
     public abstract void setAtoms(Map<Atom, Statement> map);
 
+    public abstract ParameterizedClass<? extends Statement> getParameterizedClass();
+
     @Override
     public abstract boolean equals(Object obj);
 

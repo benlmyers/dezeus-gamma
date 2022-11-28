@@ -7,6 +7,7 @@ import java.util.Map;
 import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
+import com.benmyers.dezeus.core.ParameterizedClass;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.lang.Symbol;
 
@@ -79,5 +80,13 @@ public class Conditional extends Operator {
         } else {
             cons.setAtoms(map);
         }
+    }
+
+    @Override
+    public ParameterizedClass<? extends Statement> getParameterizedClass() {
+        List<ParameterizedClass<? extends Statement>> list = new ArrayList<>();
+        list.add(ant.getParameterizedClass());
+        list.add(cons.getParameterizedClass());
+        return new ParameterizedClass<>(Conditional.class, list);
     }
 }

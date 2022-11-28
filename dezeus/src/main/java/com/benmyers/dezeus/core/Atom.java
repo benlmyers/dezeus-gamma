@@ -76,4 +76,9 @@ public class Atom extends Statement {
     public String getName() {
         return name;
     }
+
+    @Override
+    public ParameterizedClass<? extends Statement> getParameterizedClass() {
+        return new ParameterizedClass<>(Atom.class, new ArrayList<>());
+    }
 }

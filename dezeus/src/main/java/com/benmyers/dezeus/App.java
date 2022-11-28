@@ -54,9 +54,6 @@ public class App {
                     default:
                         return;
                 }
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                return;
             } catch (Exception e) {
                 e.printStackTrace();
                 return;
@@ -80,7 +77,6 @@ public class App {
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
-                    // Create manager in current directory
                     RulesManager manager = new RulesManager();
                     manager.listAll();
                     break;
@@ -100,7 +96,6 @@ public class App {
                         List<Atom> atoms = rule.getAtoms();
                         List<Statement> instantiation = new ArrayList<>();
                         System.out.println("This rule has " + atoms.size() + " parameters: " + atoms);
-                        // Repeat until no errors
                         System.out.println("Enter the values for each parameter:");
                         for (int i = 0; i < atoms.size(); i++) {
                             System.out.print(">> " + atoms.get(i) + " := ");
@@ -214,6 +209,7 @@ public class App {
         System.out.println("-");
         System.out.println("[1] Convert to English");
         System.out.println("[2] Convert to LaTeX");
+        System.out.println("[3] Show Parameterized Class");
         System.out.println("[*] Symbolize again");
         System.out.println("[0] Menu");
         try {
@@ -229,6 +225,9 @@ public class App {
                 case 2:
                     System.out.println(s.toLaTeX());
                     symbolizeMenu(s);
+                    break;
+                case 3:
+                    System.out.println(s.getParameterizedClass());
                     break;
                 default:
                     symbolize();

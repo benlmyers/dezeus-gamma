@@ -11,7 +11,7 @@ import com.benmyers.dezeus.lang.Symbol;
 
 import org.junit.Test;
 
-public class SymbolTest {
+public class SymbolizationTest {
 
     @Test
     public void checkLogicOperators() {

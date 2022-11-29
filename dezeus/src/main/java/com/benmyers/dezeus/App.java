@@ -16,7 +16,6 @@ import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.derivation.Arranger;
 import com.benmyers.dezeus.core.derivation.Deriver;
 import com.benmyers.dezeus.core.derivation.Prover;
-import com.benmyers.dezeus.core.error.ApplyMismatchException;
 import com.benmyers.dezeus.core.error.DezeusException;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.core.rule.Law;

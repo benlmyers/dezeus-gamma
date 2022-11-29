@@ -13,6 +13,7 @@ import com.benmyers.dezeus.core.PropositionBuilder;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementBuilder;
 import com.benmyers.dezeus.core.StatementGroup;
+import com.benmyers.dezeus.core.derivation.Arranger;
 import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.ApplyMismatchException;
 import com.benmyers.dezeus.core.error.DezeusException;
@@ -71,6 +72,7 @@ public class App {
         System.out.println("[2] Define Law");
         System.out.println("[3] Apply a Rule");
         System.out.println("[4] Instantiate a Rule");
+        System.out.println("[5] Arrange for Rule use");
         System.out.println("[*] Menu");
         try {
             System.out.print(">> ");
@@ -106,6 +108,30 @@ public class App {
                         System.out.println("Instantiated rule: " + rule);
                     } catch (DezeusException e) {
                         System.out.println("Invalid ID");
+                    }
+                    break;
+                case 5:
+                    try {
+                        System.out.println("Enter the ID of the rule you wish to use:");
+                        System.out.print(">> ");
+                        int id = Integer.parseInt(scanner.nextLine());
+                        Rule rule = new RulesManager().get(id);
+                        System.out.println("You chose: " + rule);
+                        StatementGroup input = rule.getInput();
+                        System.out.println("This rule has " + input.size() + " inputs: " + input);
+                        System.out.println("Enter your relevant statements for use.");
+                        System.out.println("You may enter your statements in any order.");
+                        StatementGroup list = new StatementGroup();
+                        for (int i = 0; i < input.size(); i++) {
+                            System.out.print(">> (" + (i + 1) + "): ");
+                            String value = scanner.nextLine();
+                            list.add(new StatementBuilder(value).build());
+                        }
+                        Arranger arranger = new Arranger(list, rule);
+                        List<Statement> result = arranger.arrange();
+                        System.out.println("Result: " + result);
+                    } catch (DezeusException e) {
+                        e.printStackTrace();
                     }
                     break;
                 default:

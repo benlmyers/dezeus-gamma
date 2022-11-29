@@ -122,6 +122,14 @@ public class StatementGroup extends Statement implements Collection<Statement> {
         return false;
     }
 
+    public StatementGroup copy() {
+        StatementGroup copy = new StatementGroup();
+        for (Statement s : statements) {
+            copy.add(s.copy());
+        }
+        return copy;
+    }
+
     // Utility
 
     public Set<Statement> getStatementSet() {
@@ -186,25 +194,34 @@ public class StatementGroup extends Statement implements Collection<Statement> {
         this.statements = newStatements;
     }
 
-    public List<StatementGroup> getPermutations() {
-        List<StatementGroup> groups = new ArrayList<>();
+    public List<List<Statement>> getPermutations() {
+        List<List<Statement>> permutations = new ArrayList<>();
         if (size() == 0)
-            return groups;
+            return permutations;
         if (size() == 1) {
-            groups.add(this);
-            return groups;
+            permutations.add(new ArrayList<>(this));
+            return permutations;
         }
         for (Statement statement : statements) {
             StatementGroup group = new StatementGroup();
             group.addAll(statements);
             group.remove(statement);
-            List<StatementGroup> subGroups = group.getPermutations();
-            for (StatementGroup subGroup : subGroups) {
+            List<List<Statement>> subPermutations = group.getPermutations();
+            for (List<Statement> subGroup : subPermutations) {
                 subGroup.add(statement);
-                groups.add(subGroup);
+                permutations.add(subGroup);
             }
         }
-        return groups;
+        return permutations;
+    }
+
+    @Override
+    public List<Statement> getParameters() {
+        List<Statement> list = new ArrayList<>();
+        for (Statement statement : statements) {
+            list.add(statement);
+        }
+        return list;
     }
 
     @Override

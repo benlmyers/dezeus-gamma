@@ -9,6 +9,7 @@ import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.ParameterizedClass;
 import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Disjunction extends Operator {
@@ -80,6 +81,18 @@ public class Disjunction extends Operator {
         } else {
             b.setAtoms(map);
         }
+    }
+
+    public Disjunction copy() {
+        return new Disjunction(a.copy(), b.copy());
+    }
+
+    @Override
+    public List<Statement> getParameters() {
+        List<Statement> list = new ArrayList<>();
+        list.add(a);
+        list.add(b);
+        return list;
     }
 
     @Override

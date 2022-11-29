@@ -9,6 +9,7 @@ import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.ParameterizedClass;
 import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Conditional extends Operator {
@@ -34,6 +35,10 @@ public class Conditional extends Operator {
 
     public Statement getCons() {
         return cons;
+    }
+
+    public Conditional copy() {
+        return new Conditional(ant.copy(), cons.copy());
     }
 
     @Override
@@ -80,6 +85,14 @@ public class Conditional extends Operator {
         } else {
             cons.setAtoms(map);
         }
+    }
+
+    @Override
+    public List<Statement> getParameters() {
+        List<Statement> list = new ArrayList<>();
+        list.add(ant);
+        list.add(cons);
+        return list;
     }
 
     @Override

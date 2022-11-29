@@ -77,6 +77,21 @@ public class Atom extends Statement {
         return name;
     }
 
+    public Atom copy() {
+        try {
+            return new Atom(name, latex, true);
+        } catch (DezeusException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Statement> getParameters() {
+        List<Statement> list = new ArrayList<>();
+        list.add(this);
+        return list;
+    }
+
     @Override
     public ParameterizedClass<? extends Statement> getParameterizedClass() {
         return new ParameterizedClass<>(Atom.class, new ArrayList<>());

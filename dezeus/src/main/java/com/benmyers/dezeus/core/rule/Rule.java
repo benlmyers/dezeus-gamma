@@ -2,6 +2,7 @@ package com.benmyers.dezeus.core.rule;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.Thread.State;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +18,9 @@ import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.error.ApplyMismatchException;
 import com.benmyers.dezeus.core.error.InstatiateMismatchException;
 import com.benmyers.dezeus.core.justification.RuleJustification;
+import com.benmyers.dezeus.core.util.Copyable;
 
-public abstract class Rule implements Cloneable {
+public abstract class Rule implements Copyable<Rule> {
 
     String name = "Unnamed Rule";
     int id = 0;
@@ -48,6 +50,16 @@ public abstract class Rule implements Cloneable {
         return id;
     }
 
+    protected Rule() {
+    }
+
+    protected Rule(String name, int id, StatementGroup input, StatementGroup output) {
+        this.name = name;
+        this.id = id;
+        this.input = input;
+        this.output = output;
+    }
+
     public StatementGroup getInput() {
         return input;
     }
@@ -66,23 +78,19 @@ public abstract class Rule implements Cloneable {
     }
 
     public Rule instantiate(List<Statement> arguments) throws InstatiateMismatchException {
-        try {
-            Rule rule = (Rule) this.clone();
-            List<Atom> atoms = getAtoms();
-            if (arguments.size() != atoms.size()) {
-                throw new InstatiateMismatchException();
-            }
-            Map<Atom, Statement> map = new HashMap<>();
-            for (int i = 0; i < atoms.size(); i++) {
-                map.put(atoms.get(i), arguments.get(i));
-            }
-            rule.input.setAtoms(map);
-            rule.output.setAtoms(map);
-            return rule;
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
+        Rule rule = this.copy();
+        rule.instantiated = true;
+        List<Atom> atoms = getAtoms();
+        if (arguments.size() != atoms.size()) {
+            throw new InstatiateMismatchException();
         }
+        Map<Atom, Statement> map = new HashMap<>();
+        for (int i = 0; i < atoms.size(); i++) {
+            map.put(atoms.get(i), arguments.get(i));
+        }
+        rule.input.setAtoms(map);
+        rule.output.setAtoms(map);
+        return rule;
     }
 
     public Set<Deduction> apply(StatementGroup input) throws ApplyMismatchException {

@@ -9,6 +9,7 @@ import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.ParameterizedClass;
 import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Conjunction extends Operator {
@@ -34,6 +35,10 @@ public class Conjunction extends Operator {
 
     public Statement getRight() {
         return b;
+    }
+
+    public Conjunction copy() {
+        return new Conjunction(a.copy(), b.copy());
     }
 
     @Override
@@ -80,6 +85,14 @@ public class Conjunction extends Operator {
         } else {
             b.setAtoms(map);
         }
+    }
+
+    @Override
+    public List<Statement> getParameters() {
+        List<Statement> list = new ArrayList<>();
+        list.add(a);
+        list.add(b);
+        return list;
     }
 
     @Override

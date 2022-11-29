@@ -31,6 +31,10 @@ public class Negation extends Operator {
         return s;
     }
 
+    public Negation copy() {
+        return new Negation(s.copy());
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Negation) {
@@ -69,6 +73,13 @@ public class Negation extends Operator {
         } else {
             s.setAtoms(map);
         }
+    }
+
+    @Override
+    public List<Statement> getParameters() {
+        List<Statement> list = new ArrayList<>();
+        list.add(s);
+        return list;
     }
 
     @Override

@@ -3,13 +3,14 @@ package com.benmyers.dezeus.core;
 import java.util.List;
 import java.util.Map;
 
+import com.benmyers.dezeus.core.util.Copyable;
 import com.benmyers.dezeus.logic.Biconditional;
 import com.benmyers.dezeus.logic.Conditional;
 import com.benmyers.dezeus.logic.Conjunction;
 import com.benmyers.dezeus.logic.Disjunction;
 import com.benmyers.dezeus.logic.Negation;
 
-public abstract class Statement {
+public abstract class Statement implements Copyable<Statement> {
 
     public abstract String toString();
 
@@ -21,6 +22,9 @@ public abstract class Statement {
 
     public abstract void setAtoms(Map<Atom, Statement> map);
 
+    public abstract List<Statement> getParameters();
+
+    @SuppressWarnings("java:S1452")
     public abstract ParameterizedClass<? extends Statement> getParameterizedClass();
 
     @Override

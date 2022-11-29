@@ -14,6 +14,7 @@ import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementBuilder;
 import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.derivation.Arranger;
+import com.benmyers.dezeus.core.derivation.Deriver;
 import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.ApplyMismatchException;
 import com.benmyers.dezeus.core.error.DezeusException;
@@ -157,11 +158,12 @@ public class App {
                     System.out.print(">> ");
                     id = Integer.parseInt(scanner.nextLine());
                     rule = new RulesManager().get(id);
-                    System.out.println("You chose:" + rule);
+                    System.out.println("You chose: " + rule);
                     try {
-                        Set<Deduction> deduction = rule.apply(statements);
-                        System.out.println(deduction);
-                    } catch (ApplyMismatchException e) {
+                        Deriver deriver = new Deriver(statements, rule);
+                        Set<Deduction> result = deriver.derive();
+                        System.out.println("Result: " + result);
+                    } catch (DezeusException e) {
                         e.printStackTrace();
                     }
                     break;

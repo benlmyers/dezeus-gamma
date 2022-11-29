@@ -12,7 +12,7 @@ public class RuleJustification implements Justification {
 
     @Override
     public String getAbbr() {
-        return "[" + rule.getId() + "]";
+        return rule.getAbbr();
     }
 
     @Override

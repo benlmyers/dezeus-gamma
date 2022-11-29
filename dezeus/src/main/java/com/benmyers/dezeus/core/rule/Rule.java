@@ -40,6 +40,10 @@ public abstract class Rule implements Copyable<Rule> {
         return name;
     }
 
+    public String getAbbr() {
+        return name.replaceAll("\\B.|\\P{L}", "").toLowerCase();
+    }
+
     @Override
     public String toString() {
         return "[" + id + "] " + input + " |- " + output;

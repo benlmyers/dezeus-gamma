@@ -2,7 +2,6 @@ package com.benmyers.dezeus.core.rule;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.Thread.State;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -37,21 +37,6 @@ public class Arranger {
         // Get all permutations of the relevant knowns. One of these permutations should
         // match the rule's input.
         List<List<Statement>> possibleArrangements = relevantKnowns.getPermutations();
-
-        // List<StatementGroup> toRemove = new ArrayList<>();
-        // for (StatementGroup arrangement : possibleArrangements) {
-        // List<Statement> arrangementList = new
-        // ArrayList<>(arrangement.getStatementSet());
-        // for (int i = 0; i < arrangement.size(); i++) {
-        // if (arrangementList.get(i).getParameterizedClass() != ruleInputTypes.get(i))
-        // {
-        // toRemove.add(arrangement);
-        // break;
-        // }
-        // }
-        // }
-        // possibleArrangements.removeAll(toRemove);
-
         // For each possible arrangement, check if it is valid.
         for (List<Statement> arrangement : possibleArrangements) {
             List<Statement> parameters = new ArrayList<>();

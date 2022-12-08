@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementGroup;
-import com.benmyers.dezeus.core.error.InstatiateMismatchException;
+import com.benmyers.dezeus.core.error.InstantiateMismatchException;
 import com.benmyers.dezeus.core.rule.Rule;
 
 public class Arranger {
@@ -29,6 +29,14 @@ public class Arranger {
      *         possible statements that apply to the ith input of the rule.
      */
     public List<StatementGroup> arrangeAny() {
+        for (Statement known : knowns) {
+            for (Statement input : rule.getInput()) {
+                if (!known.getParameterizedClass().fits(input.getParameterizedClass())) {
+                    continue;
+                }
+                // TODO: Complete
+            }
+        }
         return null;
     }
 
@@ -43,8 +51,7 @@ public class Arranger {
      */
     public List<Statement> arrangeRelevant() {
         // If the size of relevant knowns is larger than the size of rule's inputs, then
-        // it is impossible
-        // to arrange the knowns in a way that fits for instantiation.
+        // it is impossible to arrange the knowns in a way that fits for instantiation.
         if (knowns.size() != rule.getInput().size()) {
             return new ArrayList<>();
         }
@@ -85,7 +92,7 @@ public class Arranger {
                 if (instantiatedRule.getInput().equals(knowns)) {
                     return parameters;
                 }
-            } catch (InstatiateMismatchException e) {
+            } catch (InstantiateMismatchException e) {
                 System.out.println("UNEXPECTED ISSUE: Instantiation mismatch");
             }
         }

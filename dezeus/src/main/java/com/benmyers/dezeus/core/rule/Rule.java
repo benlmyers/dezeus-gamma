@@ -15,7 +15,7 @@ import com.benmyers.dezeus.core.Deduction;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.error.ApplyMismatchException;
-import com.benmyers.dezeus.core.error.InstatiateMismatchException;
+import com.benmyers.dezeus.core.error.InstantiateMismatchException;
 import com.benmyers.dezeus.core.justification.RuleJustification;
 import com.benmyers.dezeus.core.util.Copyable;
 
@@ -80,12 +80,12 @@ public abstract class Rule implements Copyable<Rule> {
         return atomList;
     }
 
-    public Rule instantiate(List<Statement> arguments) throws InstatiateMismatchException {
+    public Rule instantiate(List<Statement> arguments) throws InstantiateMismatchException {
         Rule rule = this.copy();
         rule.instantiated = true;
         List<Atom> atoms = getAtoms();
         if (arguments.size() != atoms.size()) {
-            throw new InstatiateMismatchException();
+            throw new InstantiateMismatchException();
         }
         Map<Atom, Statement> map = new HashMap<>();
         for (int i = 0; i < atoms.size(); i++) {

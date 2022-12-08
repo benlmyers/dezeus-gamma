@@ -1,8 +1,10 @@
 package com.benmyers.dezeus.core;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.benmyers.dezeus.core.error.InstantiateMismatchException;
 import com.benmyers.dezeus.core.util.Copyable;
 import com.benmyers.dezeus.logic.Biconditional;
 import com.benmyers.dezeus.logic.Conditional;
@@ -29,6 +31,20 @@ public abstract class Statement implements Copyable<Statement> {
 
     @Override
     public abstract boolean equals(Object obj);
+
+    public Statement instantiate(List<Statement> arguments) throws InstantiateMismatchException {
+        List<Atom> atoms = getAtoms();
+        if (atoms.size() != arguments.size()) {
+            throw new InstantiateMismatchException();
+        }
+        Map<Atom, Statement> map = new HashMap<>();
+        for (int i = 0; i < atoms.size(); i++) {
+            map.put(atoms.get(i), arguments.get(i));
+        }
+        Statement copy = this.copy();
+        copy.setAtoms(map);
+        return copy;
+    }
 
     @Override
     public int hashCode() {

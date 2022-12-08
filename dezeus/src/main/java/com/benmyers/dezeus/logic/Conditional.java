@@ -96,7 +96,7 @@ public class Conditional extends Operator {
 
     @Override
     public ParameterizedClass<? extends Statement> getParameterizedClass() {
-        List<ParameterizedClass<? extends Statement>> list = new ArrayList<>();
+        List<ParameterizedClass<?>> list = new ArrayList<>();
         list.add(ant.getParameterizedClass());
         list.add(cons.getParameterizedClass());
         return new ParameterizedClass<>(Conditional.class, list);

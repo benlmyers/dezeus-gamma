@@ -84,7 +84,7 @@ public class Negation extends Operator {
 
     @Override
     public ParameterizedClass<? extends Statement> getParameterizedClass() {
-        List<ParameterizedClass<? extends Statement>> list = new ArrayList<>();
+        List<ParameterizedClass<?>> list = new ArrayList<>();
         list.add(s.getParameterizedClass());
         return new ParameterizedClass<>(Negation.class, list);
     }

@@ -226,7 +226,7 @@ public class StatementGroup extends Statement implements Collection<Statement> {
 
     @Override
     public ParameterizedClass<? extends Statement> getParameterizedClass() {
-        List<ParameterizedClass<? extends Statement>> list = new ArrayList<>();
+        List<ParameterizedClass<?>> list = new ArrayList<>();
         for (Statement s : statements) {
             list.add(s.getParameterizedClass());
         }

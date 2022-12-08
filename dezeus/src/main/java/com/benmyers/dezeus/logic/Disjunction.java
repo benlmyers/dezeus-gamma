@@ -96,7 +96,7 @@ public class Disjunction extends Operator {
 
     @Override
     public ParameterizedClass<? extends Statement> getParameterizedClass() {
-        List<ParameterizedClass<? extends Statement>> list = new ArrayList<>();
+        List<ParameterizedClass<?>> list = new ArrayList<>();
         list.add(a.getParameterizedClass());
         list.add(b.getParameterizedClass());
         return new ParameterizedClass<>(Disjunction.class, list);

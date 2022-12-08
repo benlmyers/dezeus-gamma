@@ -25,8 +25,11 @@ public class StatementBuilder {
     }
 
     public StatementGroup buildGroup() throws DezeusException {
+        if (!input.contains(App.symbols.get(Symbol.PREMISE_DELIMITER))) {
+            return new StatementGroup(build());
+        }
         StatementGroup group = new StatementGroup();
-        String[] split = input.split(App.symbols.get(Symbol.PREMISE_DELIMITER));
+        String[] split = input.split("\\" + App.symbols.get(Symbol.PREMISE_DELIMITER));
         for (String string : split) {
             StatementBuilder builder = new StatementBuilder(string);
             group.add(builder.build());

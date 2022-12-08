@@ -104,8 +104,8 @@ public class App {
                             String value = scanner.nextLine();
                             instantiation.add(new StatementBuilder(value).build());
                         }
-                        rule.instantiate(instantiation);
-                        System.out.println("Instantiated rule: " + rule);
+                        Rule newRule = rule.instantiate(instantiation);
+                        System.out.println("Instantiated rule: " + newRule);
                     } catch (DezeusException e) {
                         System.out.println("Invalid ID");
                     }
@@ -128,7 +128,7 @@ public class App {
                             list.add(new StatementBuilder(value).build());
                         }
                         Arranger arranger = new Arranger(list, rule);
-                        List<Statement> result = arranger.arrange();
+                        List<Statement> result = arranger.arrangeRelevant();
                         System.out.println("Result: " + result);
                     } catch (DezeusException e) {
                         e.printStackTrace();

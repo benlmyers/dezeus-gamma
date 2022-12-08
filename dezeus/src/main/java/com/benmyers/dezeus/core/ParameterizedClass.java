@@ -37,7 +37,7 @@ public class ParameterizedClass<T> {
         }
     }
 
-    public boolean fits(ParameterizedClass c) {
+    public boolean fits(ParameterizedClass<?> c) {
         // If c is just an Atom, then any parameterized class fits.
         if (c.base.equals(Atom.class)) {
             return true;
@@ -57,7 +57,7 @@ public class ParameterizedClass<T> {
         // does not fit c.
         for (int i = 0; i < parameters.size(); i++) {
             ParameterizedClass<?> checkForFit = parameters.get(i);
-            ParameterizedClass<?> parameterClass = (ParameterizedClass<?>) c.parameters.get(i);
+            ParameterizedClass<?> parameterClass = c.parameters.get(i);
             if (!checkForFit.fits(parameterClass)) {
                 return false;
             }

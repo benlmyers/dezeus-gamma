@@ -12,19 +12,40 @@ import com.benmyers.dezeus.core.rule.Rule;
 
 public class Arranger {
 
-    StatementGroup relevantKnowns;
+    StatementGroup knowns;
     Rule rule;
 
-    public Arranger(StatementGroup relevantKnowns, Rule rule) {
-        this.relevantKnowns = relevantKnowns;
+    public Arranger(StatementGroup knowns, Rule rule) {
+        this.knowns = knowns;
         this.rule = rule;
     }
 
-    public List<Statement> arrange() {
-        // If the size of relevantKnowns is larger than the size of rule's inputs, then
+    /**
+     * Arranges any supplied knowns for use in a rule.
+     * Consider knowns = {~A, A->B, BvC}. Then for rule = P. P->Q |- Q, arrangeAny()
+     * returns [{~A, A->B, BvC}, {A->B}].
+     * 
+     * @return A list of StatementGroups. The ith element of the list are the
+     *         possible statements that apply to the ith input of the rule.
+     */
+    public List<StatementGroup> arrangeAny() {
+        return null;
+    }
+
+    /**
+     * Arranges only relevant knowns for use in a rule.
+     * Consider knowns = {(A->B)->C, A->B}. Then for rule = P. P->Q |- Q,
+     * arrangeRelevant() returns [A->B, (A->B)->C].
+     * returns [{~A, A->B, BvC}, {A->B}].
+     * 
+     * @return A list of Statements. The statements are ordered to be used in the
+     *         supplied rule.
+     */
+    public List<Statement> arrangeRelevant() {
+        // If the size of relevant knowns is larger than the size of rule's inputs, then
         // it is impossible
         // to arrange the knowns in a way that fits for instantiation.
-        if (relevantKnowns.size() != rule.getInput().size()) {
+        if (knowns.size() != rule.getInput().size()) {
             return new ArrayList<>();
         }
         // Convert the rule's input into an ordered list.
@@ -36,7 +57,7 @@ public class Arranger {
         }
         // Get all permutations of the relevant knowns. One of these permutations should
         // match the rule's input.
-        List<List<Statement>> possibleArrangements = relevantKnowns.getPermutations();
+        List<List<Statement>> possibleArrangements = knowns.getPermutations();
         // For each possible arrangement, check if it is valid.
         for (List<Statement> arrangement : possibleArrangements) {
             List<Statement> parameters = new ArrayList<>();
@@ -45,9 +66,7 @@ public class Arranger {
                 Statement statement = arrangement.get(i);
                 // If the rule's i'th input is an Atom, then the i'th statement of the
                 // arrangement is a parameter.
-                // Otherwise, if the rule's i'th input parameterized type exactly matches that
-                // of the i'th statement, add the
-                // statement's parameters.
+                // Otherwise, add the statement's parameters.
                 if (ruleInputList.get(i) instanceof Atom) {
                     parameters.add(statement);
                 } else {
@@ -63,7 +82,7 @@ public class Arranger {
                 Rule instantiatedRule = rule.instantiate(parameters);
                 // If the instantiated rule equals the relevant knowns, return the now correct
                 // list of parameters.
-                if (instantiatedRule.getInput().equals(relevantKnowns)) {
+                if (instantiatedRule.getInput().equals(knowns)) {
                     return parameters;
                 }
             } catch (InstatiateMismatchException e) {

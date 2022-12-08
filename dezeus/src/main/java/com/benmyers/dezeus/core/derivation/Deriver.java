@@ -22,7 +22,7 @@ public class Deriver {
 
     public Set<Deduction> derive() throws InstatiateMismatchException, ApplyMismatchException {
         Arranger arranger = new Arranger(relevantKnowns, rule);
-        List<Statement> arrangement = arranger.arrange();
+        List<Statement> arrangement = arranger.arrangeRelevant();
         Rule instantiatedRule = rule.instantiate(arrangement);
         Set<Deduction> deductions = instantiatedRule.apply(relevantKnowns);
         return deductions;

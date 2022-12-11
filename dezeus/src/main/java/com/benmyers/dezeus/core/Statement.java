@@ -46,6 +46,35 @@ public abstract class Statement implements Copyable<Statement> {
         return copy;
     }
 
+    public boolean fits(Statement template, Map<Atom, Statement> map) {
+        if (template instanceof Atom) {
+            Atom atom = (Atom) template;
+            if (map.get(atom) != null) {
+                if (map.get(atom) != this) {
+                    return false;
+                }
+                map.put(atom, this);
+                return true;
+            }
+        } else if (template.getClass() != getClass()) {
+            return false;
+        } else {
+            List<Statement> parameters = getParameters();
+            List<Statement> templateParameters = template.getParameters();
+            if (parameters.size() != templateParameters.size()) {
+                return false;
+            }
+            for (int i = 0; i < parameters.size(); i++) {
+                Statement parameter = parameters.get(i);
+                Statement templateParameter = templateParameters.get(i);
+                if (!parameter.fits(templateParameter, map)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     @Override
     public int hashCode() {
         return toString().hashCode();

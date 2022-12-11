@@ -29,15 +29,17 @@ public class Arranger {
      *         possible statements that apply to the ith input of the rule.
      */
     public List<StatementGroup> arrangeAny() {
+        List<StatementGroup> result = new ArrayList<>();
         for (Statement known : knowns) {
+            StatementGroup group = new StatementGroup();
             for (Statement input : rule.getInput()) {
-                if (!known.getParameterizedClass().fits(input.getParameterizedClass())) {
-                    continue;
+                if (known.fits(input)) {
+                    group.add(known);
                 }
-                // TODO: Complete
             }
+            result.add(group);
         }
-        return null;
+        return result;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.benmyers.dezeus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -237,6 +238,7 @@ public class App {
         System.out.println("[1] Convert to English");
         System.out.println("[2] Convert to LaTeX");
         System.out.println("[3] Show Parameterized Class");
+        System.out.println("[4] Fit Against Rule Template");
         System.out.println("[*] Symbolize again");
         System.out.println("[0] Menu");
         try {
@@ -255,6 +257,22 @@ public class App {
                     break;
                 case 3:
                     System.out.println(s.getParameterizedClass());
+                    break;
+                case 4:
+                    System.out.println("You entered: " + s);
+                    System.out.println("Enter a template statement:");
+                    System.out.print(">> ");
+                    String input = scanner.nextLine();
+                    try {
+                        StatementBuilder builder = new StatementBuilder(input);
+                        Statement statement = builder.build();
+                        System.out.println("-");
+                        System.out.println("You entered: " + statement.toString());
+                        System.out.println("Fits: " + s.fits(statement, new HashMap<>()));
+                    } catch (DezeusException e) {
+                        System.out.println("An error occured.");
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     symbolize();

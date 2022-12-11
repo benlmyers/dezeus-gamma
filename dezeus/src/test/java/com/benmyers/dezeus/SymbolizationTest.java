@@ -1,6 +1,8 @@
 package com.benmyers.dezeus;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.benmyers.dezeus.core.Atom;
@@ -72,6 +74,44 @@ public class SymbolizationTest {
             assertEquals(b.toString(), bBuild.build().toString());
             assertEquals(c.toString(), cBuild.build().toString());
             assertEquals(d.toString(), dBuild.build().toString());
+        } catch (DezeusException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void checkStatementFitting() {
+        App.resetSymbols();
+        try {
+            Statement a = new Atom("A");
+            Statement b = new Atom("B");
+            Statement c = new Atom("C");
+            Statement p = new Atom("P");
+            Statement q = new Atom("Q");
+            Statement r = new Atom("R");
+            Statement _1 = a.and(b);
+            Statement _2 = a.implies(b).implies(c);
+            Statement _3 = a.implies(b.implies(c));
+            Statement _4 = a.and(b).iff(c);
+            Statement _5 = a.not().not();
+            Statement __1 = p.and(q);
+            Statement __2 = p.implies(q);
+            Statement __3 = q.not();
+            Statement __4 = p.implies(p);
+            Statement __5 = p.implies(q.implies(r));
+            assertTrue(a.fits(p));
+            assertTrue(_1.fits(p));
+            assertTrue(_2.fits(p));
+            assertTrue(_1.fits(__1));
+            assertTrue(_2.fits(__2));
+            assertFalse(_3.fits(__3));
+            assertFalse(_1.fits(__3));
+            assertFalse(_2.fits(__4));
+            assertFalse(_3.fits(__3));
+            assertTrue(_3.fits(__5));
+            assertFalse(_2.fits(__3));
+            assertFalse(_4.fits(__2));
+            assertTrue(_5.fits(__3));
         } catch (DezeusException e) {
             fail(e.getMessage());
         }

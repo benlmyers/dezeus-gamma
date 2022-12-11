@@ -268,7 +268,7 @@ public class App {
                         Statement statement = builder.build();
                         System.out.println("-");
                         System.out.println("You entered: " + statement.toString());
-                        System.out.println("Fits: " + s.fits(statement, new HashMap<>()));
+                        System.out.println("Fits: " + s.fits(statement));
                     } catch (DezeusException e) {
                         System.out.println("An error occured.");
                         e.printStackTrace();

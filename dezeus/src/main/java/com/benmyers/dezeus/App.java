@@ -73,7 +73,8 @@ public class App {
         System.out.println("[2] Define Law");
         System.out.println("[3] Apply a Rule");
         System.out.println("[4] Instantiate a Rule");
-        System.out.println("[5] Arrange for Rule use");
+        System.out.println("[5] Arrange Relevant for Rule Use");
+        System.out.println("[6] Arrange Any for Rule Use");
         System.out.println("[*] Menu");
         try {
             System.out.print(">> ");
@@ -131,6 +132,36 @@ public class App {
                         Arranger arranger = new Arranger(list, rule);
                         List<Statement> result = arranger.arrangeRelevant();
                         System.out.println("Result: " + result);
+                    } catch (DezeusException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 6:
+                    try {
+                        System.out.println("Enter the ID of the rule you wish to use:");
+                        System.out.print(">> ");
+                        int id = Integer.parseInt(scanner.nextLine());
+                        Rule rule = new RulesManager().get(id);
+                        System.out.println("You chose: " + rule);
+                        StatementGroup input = rule.getInput();
+                        System.out.println("This rule has " + input.size() + " inputs: " + input);
+                        System.out.println("Enter any amount of statements for use.");
+                        System.out.println("Enter \"0\" when you're done.");
+                        StatementGroup list = new StatementGroup();
+                        while (true) {
+                            System.out.print(">> ");
+                            String in = scanner.nextLine();
+                            if (in.equals("0"))
+                                break;
+                            list.add(new StatementBuilder(in).build());
+                        }
+                        Arranger arranger = new Arranger(list, rule);
+                        List<StatementGroup> result = arranger.arrangeAny();
+                        List<Statement> ruleInputList = new ArrayList<>(rule.getInput());
+                        System.out.println("Result: ");
+                        for (int i = 0; i < rule.getInput().size(); i++) {
+                            System.out.println(ruleInputList.get(i) + ": " + result.get(i));
+                        }
                     } catch (DezeusException e) {
                         e.printStackTrace();
                     }

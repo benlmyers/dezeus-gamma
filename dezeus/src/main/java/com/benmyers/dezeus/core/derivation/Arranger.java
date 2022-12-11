@@ -30,9 +30,9 @@ public class Arranger {
      */
     public List<StatementGroup> arrangeAny() {
         List<StatementGroup> result = new ArrayList<>();
-        for (Statement known : knowns) {
+        for (Statement input : rule.getInput()) {
             StatementGroup group = new StatementGroup();
-            for (Statement input : rule.getInput()) {
+            for (Statement known : knowns) {
                 if (known.fits(input)) {
                     group.add(known);
                 }

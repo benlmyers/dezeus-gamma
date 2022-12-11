@@ -49,13 +49,11 @@ public abstract class Statement implements Copyable<Statement> {
     public boolean fits(Statement template, Map<Atom, Statement> map) {
         if (template instanceof Atom) {
             Atom atom = (Atom) template;
-            if (map.get(atom) != null) {
-                if (map.get(atom) != this) {
-                    return false;
-                }
-                map.put(atom, this);
-                return true;
+            if (map.get(atom) != null && map.get(atom) != this) {
+                return false;
             }
+            map.put(atom, this);
+            return true;
         } else if (template.getClass() != getClass()) {
             return false;
         } else {

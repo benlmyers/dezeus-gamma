@@ -39,8 +39,7 @@ public class Deriver {
             try {
                 Deriver relevantDeriver = new Deriver(new StatementGroup(combination), rule);
                 result.addAll(relevantDeriver.deriveRelevant());
-            } catch (ApplyMismatchException e) {
-            } catch (InstantiateMismatchException e) {
+            } catch (ApplyMismatchException | InstantiateMismatchException e) {
             }
         }
         return result;

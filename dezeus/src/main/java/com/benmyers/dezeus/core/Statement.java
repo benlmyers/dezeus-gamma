@@ -32,6 +32,14 @@ public abstract class Statement implements Copyable<Statement> {
     @Override
     public abstract boolean equals(Object obj);
 
+    public int complexity() {
+        int total = 0;
+        for (Statement parameter : getParameters()) {
+            total += parameter.complexity();
+        }
+        return total;
+    }
+
     public Statement instantiate(List<Statement> arguments) throws InstantiateMismatchException {
         List<Atom> atoms = getAtoms();
         if (atoms.size() != arguments.size()) {
@@ -44,11 +52,6 @@ public abstract class Statement implements Copyable<Statement> {
         Statement copy = this.copy();
         copy.setAtoms(map);
         return copy;
-    }
-
-    public boolean fits(Statement template) {
-        Map<Atom, Statement> map = new HashMap<>();
-        return fits(template, map);
     }
 
     @Override
@@ -104,7 +107,12 @@ public abstract class Statement implements Copyable<Statement> {
         }
     }
 
-    private boolean fits(Statement template, Map<Atom, Statement> map) {
+    public boolean fits(Statement template) {
+        Map<Atom, Statement> map = new HashMap<>();
+        return fits(template, map);
+    }
+
+    public boolean fits(Statement template, Map<Atom, Statement> map) {
         if (template instanceof Atom) {
             Atom atom = (Atom) template;
             if (map.get(atom) != null && map.get(atom) != this) {

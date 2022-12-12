@@ -270,6 +270,7 @@ public class App {
         System.out.println("[2] Convert to LaTeX");
         System.out.println("[3] Show Parameterized Class");
         System.out.println("[4] Fit Against Rule Template");
+        System.out.println("[5] Complexity");
         System.out.println("[*] Symbolize again");
         System.out.println("[0] Menu");
         try {
@@ -304,6 +305,9 @@ public class App {
                         System.out.println("An error occured.");
                         e.printStackTrace();
                     }
+                    break;
+                case 5:
+                    System.out.println("Complexity: " + s.complexity());
                     break;
                 default:
                     symbolize();

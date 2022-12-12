@@ -31,6 +31,11 @@ public class Atom extends Statement {
     }
 
     @Override
+    public int complexity() {
+        return 1;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Atom) {
             Atom atom = (Atom) obj;

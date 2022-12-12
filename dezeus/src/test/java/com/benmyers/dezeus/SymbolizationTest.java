@@ -116,4 +116,25 @@ public class SymbolizationTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void checkComplexity() {
+        App.resetSymbols();
+        try {
+            Statement a = new Atom("A");
+            Statement b = new Atom("B");
+            Statement c = new Atom("C");
+            Statement d = new Atom("D");
+            assertEquals(1, a.complexity());
+            assertEquals(2, a.and(b).complexity());
+            assertEquals(2, a.iff(b).complexity());
+            assertEquals(1, a.not().complexity());
+            assertEquals(2, a.and(a).complexity());
+            assertEquals(3, a.iff(b).iff(c).complexity());
+            assertEquals(4, a.and(b).implies(c.implies(d)).complexity());
+            assertEquals(5, a.and(b).and(c).and(d).or(a).complexity());
+        } catch (DezeusException e) {
+            fail(e.getMessage());
+        }
+    }
 }

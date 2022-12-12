@@ -35,6 +35,11 @@ public class StatementGroup extends Statement implements Collection<Statement> {
         add(d);
     }
 
+    public StatementGroup(List<Statement> l) {
+        this();
+        statements = new HashSet<>(l);
+    }
+
     // Implmentation
 
     @Override

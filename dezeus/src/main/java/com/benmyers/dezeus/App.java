@@ -74,6 +74,7 @@ public class App {
         System.out.println("[4] Instantiate a Rule");
         System.out.println("[5] Arrange Relevant for Rule Use");
         System.out.println("[6] Arrange Any for Rule Use");
+        System.out.println("[7] Get All Derivations from Rule");
         System.out.println("[*] Menu");
         try {
             System.out.print(">> ");
@@ -165,6 +166,35 @@ public class App {
                         e.printStackTrace();
                     }
                     break;
+                case 7:
+                    try {
+                        System.out.println("Enter the ID of the rule you wish to use:");
+                        System.out.print(">> ");
+                        int id = Integer.parseInt(scanner.nextLine());
+                        Rule rule = new RulesManager().get(id);
+                        System.out.println("You chose: " + rule);
+                        StatementGroup input = rule.getInput();
+                        System.out.println("This rule has " + input.size() + " inputs: " + input);
+                        System.out.println("Enter any amount of statements for use.");
+                        System.out.println("Enter \"0\" when you're done.");
+                        StatementGroup list = new StatementGroup();
+                        while (true) {
+                            System.out.print(">> ");
+                            String in = scanner.nextLine();
+                            if (in.equals("0"))
+                                break;
+                            list.add(new StatementBuilder(in).build());
+                        }
+                        Deriver deriver = new Deriver(list, rule);
+                        Set<Deduction> deductions = deriver.deriveAny();
+                        System.out.println("Result: ");
+                        for (Deduction deduction : deductions) {
+                            System.out.println(deduction);
+                        }
+                    } catch (DezeusException e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 default:
                     return;
             }
@@ -191,7 +221,7 @@ public class App {
                     System.out.println("You chose: " + rule);
                     try {
                         Deriver deriver = new Deriver(statements, rule);
-                        Set<Deduction> result = deriver.derive();
+                        Set<Deduction> result = deriver.deriveRelevant();
                         System.out.println("Result: " + result);
                     } catch (DezeusException e) {
                         e.printStackTrace();

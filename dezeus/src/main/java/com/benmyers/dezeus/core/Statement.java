@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.benmyers.dezeus.core.error.InstantiateMismatchException;
-import com.benmyers.dezeus.core.justification.Justification;
 import com.benmyers.dezeus.core.util.Copyable;
 import com.benmyers.dezeus.logic.Biconditional;
 import com.benmyers.dezeus.logic.Conditional;

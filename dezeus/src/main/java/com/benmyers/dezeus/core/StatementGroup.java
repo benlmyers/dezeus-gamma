@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.benmyers.dezeus.logic.Conjunction;
-
 public class StatementGroup extends Statement implements Collection<Statement> {
 
     private Set<Statement> statements = new HashSet<>();

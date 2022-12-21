@@ -67,6 +67,10 @@ public abstract class Rule implements Copyable<Rule> {
         return input;
     }
 
+    public StatementGroup getOutput() {
+        return output;
+    }
+
     public List<Atom> getAtoms() {
         Set<Atom> atoms = new HashSet<>();
         for (Statement statement : input) {
@@ -113,5 +117,14 @@ public abstract class Rule implements Copyable<Rule> {
             classes.add(statement.getClass());
         }
         return classes;
+    }
+
+    public boolean canShow(Statement desiredResult) {
+        for (Statement _output : output) {
+            if (desiredResult.fits(_output)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

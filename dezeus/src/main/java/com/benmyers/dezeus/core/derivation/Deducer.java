@@ -1,7 +1,7 @@
 package com.benmyers.dezeus.core.derivation;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementGroup;
@@ -16,18 +16,14 @@ public class Deducer {
         this.knowns = knowns;
     }
 
-    private Set<Class<? extends Statement>> getKnownClasses() {
-        Set<Class<? extends Statement>> knownClasses = knowns.stream()
-                .map(Statement::getClass)
-                .collect(Collectors.toSet());
-        return knownClasses;
-    }
-
-    public Set<Rule> getRelevantRules() {
-        Set<Class<? extends Statement>> knownClasses = getKnownClasses();
-        Set<Rule> relevantRules = new RulesManager().getAll().stream()
-                .filter(rule -> knownClasses.containsAll(rule.getInputClasses()))
-                .collect(Collectors.toSet());
-        return relevantRules;
+    public Set<Rule> getRelevantRules(Statement desiredResult) {
+        Set<Rule> result = new HashSet<>();
+        Set<Rule> allRules = new RulesManager().getAll();
+        for (Rule rule : allRules) {
+            if (rule.canShow(desiredResult)) {
+                result.add(rule);
+            }
+        }
+        return result;
     }
 }

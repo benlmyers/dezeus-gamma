@@ -14,6 +14,7 @@ import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementBuilder;
 import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.derivation.Arranger;
+import com.benmyers.dezeus.core.derivation.Deducer;
 import com.benmyers.dezeus.core.derivation.Deriver;
 import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.DezeusException;
@@ -366,6 +367,7 @@ public class App {
     private static void deriveMenu(Proposition p) {
         System.out.println("-");
         System.out.println("[1] Prove the proposition");
+        System.out.println("[2] Get all initial Deductions");
         System.out.println("[*] Derive again");
         System.out.println("[0] Menu");
         try {
@@ -382,6 +384,14 @@ public class App {
                         System.out.println(i.getMessage());
                     }
                     deriveMenu(p);
+                    break;
+                case 2:
+                    StatementGroup list = p.getPremises();
+                    Deducer deducer = new Deducer(list);
+                    System.out.println("Deductions:");
+                    for (Deduction deduction : deducer.getDeductions()) {
+                        System.out.println(deduction);
+                    }
                     break;
                 default:
                     derive();

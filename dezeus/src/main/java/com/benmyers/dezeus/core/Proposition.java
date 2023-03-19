@@ -13,17 +13,17 @@ import com.benmyers.dezeus.lang.Symbol;
 public class Proposition {
 
     private StatementGroup premises;
-    private StatementGroup conclusion;
+    private StatementGroup conclusions;
 
-    public Proposition(StatementGroup premises, StatementGroup conclusion) {
+    public Proposition(StatementGroup premises, StatementGroup conclusions) {
         this.premises = premises;
-        this.conclusion = conclusion;
+        this.conclusions = conclusions;
     }
 
     @Override
     public String toString() {
         String premiseString = premises.toString();
-        String conclusionString = conclusion.toString();
+        String conclusionString = conclusions.toString();
         return premiseString + " " + App.symbols.get(Symbol.THEREFORE) + " " + conclusionString;
     }
 
@@ -39,8 +39,8 @@ public class Proposition {
         return set;
     }
 
-    public Statement getConclusion() {
-        return conclusion;
+    public StatementGroup getConclusions() {
+        return conclusions;
     }
 
     public Theorem prove() throws ProofNotFoundException {

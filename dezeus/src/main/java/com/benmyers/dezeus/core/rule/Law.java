@@ -28,7 +28,7 @@ public class Law extends Rule {
         super.id = id;
         super.name = "Unnamed Law";
         super.input = proposition.getPremises();
-        super.output = new StatementGroup(proposition.getConclusion());
+        super.output = proposition.getConclusions();
     }
 
     private Law() {

@@ -3,8 +3,11 @@ package com.benmyers.dezeus.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.benmyers.dezeus.core.derivation.Show;
 import com.benmyers.dezeus.core.error.InstantiateMismatchException;
+import com.benmyers.dezeus.core.error.ShowFailedException;
 import com.benmyers.dezeus.core.util.Copyable;
 import com.benmyers.dezeus.logic.Biconditional;
 import com.benmyers.dezeus.logic.Conditional;
@@ -81,6 +84,10 @@ public abstract class Statement implements Copyable<Statement> {
 
     public Negation not() {
         return new Negation(this);
+    }
+
+    public Show show(Set<Deduction> deductions) {
+        return Show.indirect(deductions, this);
     }
 
     protected static String wrapString(Statement s) {

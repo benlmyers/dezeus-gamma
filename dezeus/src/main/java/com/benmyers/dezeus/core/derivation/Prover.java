@@ -6,27 +6,34 @@ import com.benmyers.dezeus.core.Deduction;
 import com.benmyers.dezeus.core.Namespace;
 import com.benmyers.dezeus.core.Proof;
 import com.benmyers.dezeus.core.Proposition;
-import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
+import com.benmyers.dezeus.core.error.ShowFailedException;
 
 public class Prover {
 
-    Set<Deduction> knowns;
-    Statement conclusion;
+    Proposition proposition;
 
     Namespace namespace;
 
-    public Prover(Set<Deduction> knowns, Statement conclusion) {
-        this.knowns = knowns;
-        this.conclusion = conclusion;
+    public Prover(StatementGroup knowns, StatementGroup conclusion) {
+        this.proposition = new Proposition(knowns, conclusion);
     }
 
     public Prover(Proposition proposition) {
-        this.knowns = proposition.getPremisesAsDeductions();
-        this.conclusion = proposition.getConclusion();
+        this.proposition = proposition;
     }
 
     public Proof prove() throws ProofNotFoundException {
+        Set<Deduction> deductions = proposition.getPremisesAsDeductions();
+        StatementGroup conclusions = proposition.getConclusions();
+        Show show = conclusions.show(deductions);
+        try {
+            show.attempt();
+        } catch (ShowFailedException e) {
+            e.printStackTrace();
+            throw new ProofNotFoundException();
+        }
         return null;
     }
 }

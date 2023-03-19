@@ -6,4 +6,10 @@ public class Proof {
 
     Statement assumption;
     Deduction conclusion;
+
+    public Proof(Proposition proposition, Statement assumption, Deduction conclusion) {
+        this.proposition = proposition;
+        this.assumption = assumption;
+        this.conclusion = conclusion;
+    }
 }

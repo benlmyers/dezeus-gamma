@@ -5,6 +5,7 @@ import com.benmyers.dezeus.core.DeductionGroup;
 import com.benmyers.dezeus.core.Namespace;
 import com.benmyers.dezeus.core.Proof;
 import com.benmyers.dezeus.core.Proposition;
+import com.benmyers.dezeus.core.Show;
 import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.core.error.ShowFailedException;

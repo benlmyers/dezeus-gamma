@@ -19,7 +19,6 @@ import com.benmyers.dezeus.core.derivation.Deriver;
 import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.DezeusException;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
-import com.benmyers.dezeus.core.rule.Law;
 import com.benmyers.dezeus.core.rule.Rule;
 import com.benmyers.dezeus.core.rule.RulesManager;
 import com.benmyers.dezeus.lang.DefaultSymbolSet;
@@ -261,17 +260,18 @@ public class App {
         System.out.println("Enter a proposition:");
         System.out.print(">> ");
         String input = scanner.nextLine();
-        System.out.println("Enter an ID value:");
+        System.out.println("Enter an ID (name) value (lowercase_syntax):");
         System.out.print(">> ");
-        int id = Integer.parseInt(scanner.nextLine());
+        String id = scanner.nextLine();
         try {
             PropositionBuilder builder = new PropositionBuilder(input);
             Proposition proposition = builder.build();
             System.out.println("-");
             System.out.println("You entered: " + proposition.toString());
             System.out.println("Saving...");
-            Law law = new Law(id, proposition);
-            law.writeToFile();
+            Rule rule = new Rule(id, id, proposition);
+            rule.writeToFile();
+            System.out.println("Saved.");
         } catch (Exception e) {
             System.out.println("An error occured.");
             e.printStackTrace();

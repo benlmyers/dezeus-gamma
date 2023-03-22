@@ -20,19 +20,7 @@ public class RulesManager {
     }
 
     private void loadAll() {
-        try (Stream<Path> paths = Files.walk(Paths.get("./rules"))) {
-            paths.forEach(filePath -> {
-                if (Files.isRegularFile(filePath) && filePath.toString().endsWith(".rule")) {
-                    try {
-                        rules.add(new Law(filePath.toFile()));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // TODO
     }
 
     public Set<Rule> getAll() {
@@ -40,12 +28,8 @@ public class RulesManager {
     }
 
     public Rule get(int id) throws RuleNotFoundException {
-        for (Rule rule : rules) {
-            if (rule.getId() == id) {
-                return rule;
-            }
-        }
-        throw new RuleNotFoundException();
+        // TODO
+        return null;
     }
 
     public void listAll() {
@@ -53,6 +37,7 @@ public class RulesManager {
     }
 
     public Rule getRule(File file) throws Exception {
-        return new Law(file);
+        // TODO
+        return null;
     }
 }

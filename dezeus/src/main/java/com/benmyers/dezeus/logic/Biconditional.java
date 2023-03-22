@@ -9,9 +9,9 @@ import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.DeductionGroup;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.ParameterizedClass;
+import com.benmyers.dezeus.core.Show;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementGroup;
-import com.benmyers.dezeus.core.derivation.Show;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Biconditional extends Operator {

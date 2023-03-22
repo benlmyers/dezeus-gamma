@@ -4,7 +4,6 @@ import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
 import com.benmyers.dezeus.core.justification.PremiseJustification;
-import com.benmyers.dezeus.core.rule.Theorem;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Proposition {
@@ -40,8 +39,8 @@ public class Proposition {
         return conclusions;
     }
 
-    public Theorem prove() throws ProofNotFoundException {
+    public Proof prove() throws ProofNotFoundException {
         Prover prover = new Prover(this);
-        return new Theorem(this, prover.prove());
+        return prover.prove();
     }
 }

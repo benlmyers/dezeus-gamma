@@ -19,7 +19,7 @@ public class RuleJustification implements Justification {
 
     @Override
     public String getAbbr() {
-        return rule.getAbbr();
+        return rule.getCode();
     }
 
     @Override

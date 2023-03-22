@@ -13,71 +13,81 @@ import java.util.Set;
 import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Deduction;
 import com.benmyers.dezeus.core.DeductionGroup;
+import com.benmyers.dezeus.core.Proposition;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.error.ApplyMismatchException;
 import com.benmyers.dezeus.core.error.InstantiateMismatchException;
 import com.benmyers.dezeus.core.justification.RuleJustification;
 import com.benmyers.dezeus.core.util.Copyable;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-public abstract class Rule implements Copyable<Rule> {
+public class Rule implements Copyable<Rule> {
 
-    String name = "Unnamed Rule";
-    int id = 0;
-    boolean instantiated = false;
+    String id = "empty";
+    String name = "Empty";
+    String code = "UNDEF";
+    transient boolean instantiated = false;
+    Label label = Label.UNLABELLED;
 
-    StatementGroup input;
-    StatementGroup output;
+    Proposition proposition = new Proposition(new StatementGroup(), new StatementGroup());
 
     public final void writeToFile() throws IOException {
-        File file = new File("rules/" + id + ".rule");
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(this);
+        System.out.println(json);
+        File file = new File("rules/" + f(label) + "/" + id + ".json");
+        file.getParentFile().mkdirs();
         file.createNewFile();
-        // Write the id, name, input, and output to the file
-        String value = id + "\n" + name + "\n" + input + "\n" + output;
-        Files.write(file.toPath(), value.getBytes());
+        Files.write(file.toPath(), json.getBytes());
     }
 
     public String getName() {
         return name;
     }
 
-    public String getAbbr() {
-        return name.replaceAll("\\B.|\\P{L}", "").toLowerCase();
+    public String getCode() {
+        return code;
     }
 
     @Override
     public String toString() {
-        return "[" + id + "] " + input + " |- " + output;
+        return "[" + id + "] " + proposition.getPremises() + " |- " + proposition.getConclusions();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    protected Rule() {
+    public Rule(String name, String code, StatementGroup input, StatementGroup output) {
+        this.id = name;
+        this.name = name;
+        this.code = code;
+        this.proposition = new Proposition(input, output);
     }
 
-    protected Rule(String name, int id, StatementGroup input, StatementGroup output) {
+    public Rule(String name, String code, Proposition proposition) {
+        this.id = name;
         this.name = name;
-        this.id = id;
-        this.input = input;
-        this.output = output;
+        this.code = code;
+        this.proposition = proposition;
     }
 
     public StatementGroup getInput() {
-        return input;
+        return proposition.getPremises();
     }
 
     public StatementGroup getOutput() {
-        return output;
+        return proposition.getConclusions();
     }
 
     public List<Atom> getAtoms() {
         Set<Atom> atoms = new HashSet<>();
-        for (Statement statement : input) {
+        for (Statement statement : proposition.getPremises()) {
             atoms.addAll(statement.getAtoms());
         }
-        for (Statement statement : output) {
+        for (Statement statement : proposition.getConclusions()) {
             atoms.addAll(statement.getAtoms());
         }
         List<Atom> atomList = new ArrayList<>();
@@ -96,18 +106,18 @@ public abstract class Rule implements Copyable<Rule> {
         for (int i = 0; i < atoms.size(); i++) {
             map.put(atoms.get(i), arguments.get(i));
         }
-        rule.input.setAtoms(map);
-        rule.output.setAtoms(map);
+        rule.proposition.getPremises().setAtoms(map);
+        rule.proposition.getConclusions().setAtoms(map);
         return rule;
     }
 
     public DeductionGroup apply(DeductionGroup input) throws ApplyMismatchException {
         StatementGroup _input = input.getStatements();
-        if (!_input.equals(this.input)) {
+        if (!_input.equals(this.proposition.getPremises())) {
             throw new ApplyMismatchException();
         }
         DeductionGroup deductions = new DeductionGroup();
-        for (Statement statement : output) {
+        for (Statement statement : proposition.getConclusions()) {
             deductions.add(new Deduction(statement, new RuleJustification(this, input)));
         }
         return deductions;
@@ -115,18 +125,54 @@ public abstract class Rule implements Copyable<Rule> {
 
     public Set<Class<? extends Statement>> getInputClasses() {
         Set<Class<? extends Statement>> classes = new HashSet<>();
-        for (Statement statement : input) {
+        for (Statement statement : proposition.getPremises()) {
             classes.add(statement.getClass());
         }
         return classes;
     }
 
     public boolean canShow(Statement desiredResult) {
-        for (Statement _output : output) {
+        for (Statement _output : proposition.getConclusions()) {
             if (desiredResult.fits(_output)) {
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public Rule copy() {
+        return new Rule(name, code, getInput(), getOutput());
+    }
+
+    public enum Label {
+        UNLABELLED, AXIOM, THEOREM, HYPOTHESIS, DEFINITION, LEMMA, COROLLARY, PROPOSITION, POSTULATE, EXERCISE
+    }
+
+    private String f(Label l) {
+        switch (l) {
+            case UNLABELLED:
+                return "unlabelled";
+            case AXIOM:
+                return "axiom";
+            case THEOREM:
+                return "theorem";
+            case HYPOTHESIS:
+                return "hypothesis";
+            case DEFINITION:
+                return "definition";
+            case LEMMA:
+                return "lemma";
+            case COROLLARY:
+                return "corollary";
+            case PROPOSITION:
+                return "proposition";
+            case POSTULATE:
+                return "postulate";
+            case EXERCISE:
+                return "exercise";
+            default:
+                return "unlabelled";
+        }
     }
 }

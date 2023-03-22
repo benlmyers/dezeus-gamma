@@ -1,9 +1,6 @@
-package com.benmyers.dezeus.core.derivation;
+package com.benmyers.dezeus.core;
 
-import com.benmyers.dezeus.core.Deduction;
-import com.benmyers.dezeus.core.DeductionGroup;
-import com.benmyers.dezeus.core.Statement;
-import com.benmyers.dezeus.core.StatementGroup;
+import com.benmyers.dezeus.core.derivation.Deducer;
 import com.benmyers.dezeus.core.error.ShowFailedException;
 import com.benmyers.dezeus.core.error.ShowFailedException.Reason;
 import com.benmyers.dezeus.core.justification.AssumeJustification;

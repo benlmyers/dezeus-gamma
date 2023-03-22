@@ -1,0 +1,12 @@
+{
+    "id": "repetition",
+    "code": "R",
+    "premises": [
+        "P"
+    ],
+    "conclusions": [
+        "P"
+    ],
+    "label": "law",
+    "category": "logic"
+}

@@ -24,12 +24,11 @@ public class Deduction {
     public void printTrace(int depth) {
         String indent = new String(new char[depth]).replace("\0", " ");
         System.out.println(indent + toString());
-        RuleJustification ruleJustification = (RuleJustification) getJustification();
-        if (ruleJustification == null) {
-            return;
+        if (getJustification() instanceof RuleJustification) {
+            RuleJustification ruleJustification = (RuleJustification) getJustification();
+            for (Deduction deduction : ruleJustification.getEvidence())
+                deduction.printTrace(depth + 1);
         }
-        for (Deduction deduction : ruleJustification.getEvidence())
-            deduction.printTrace(depth + 1);
     }
 
     @Override

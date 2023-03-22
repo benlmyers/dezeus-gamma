@@ -30,7 +30,7 @@ public class Prover {
         try {
             DeductionGroup deduction = show.attempt();
             for (Deduction d : deduction) {
-                System.out.println(d);
+                d.printTrace(0);
             }
         } catch (ShowFailedException e) {
             e.printStackTrace();

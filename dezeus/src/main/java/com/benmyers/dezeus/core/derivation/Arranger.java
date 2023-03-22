@@ -5,17 +5,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.benmyers.dezeus.core.Atom;
+import com.benmyers.dezeus.core.Deduction;
+import com.benmyers.dezeus.core.DeductionGroup;
 import com.benmyers.dezeus.core.Statement;
-import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.error.InstantiateMismatchException;
 import com.benmyers.dezeus.core.rule.Rule;
 
 public class Arranger {
 
-    StatementGroup knowns;
+    DeductionGroup knowns;
     Rule rule;
 
-    public Arranger(StatementGroup knowns, Rule rule) {
+    public Arranger(DeductionGroup knowns, Rule rule) {
         this.knowns = knowns;
         this.rule = rule;
     }
@@ -28,12 +29,12 @@ public class Arranger {
      * @return A list of StatementGroups. The ith element of the list are the
      *         possible statements that apply to the ith input of the rule.
      */
-    public List<StatementGroup> arrangeAny() {
-        List<StatementGroup> result = new ArrayList<>();
+    public List<DeductionGroup> arrangeAny() {
+        List<DeductionGroup> result = new ArrayList<>();
         for (Statement input : rule.getInput()) {
-            StatementGroup group = new StatementGroup();
-            for (Statement known : knowns) {
-                if (known.fits(input)) {
+            DeductionGroup group = new DeductionGroup();
+            for (Deduction known : knowns) {
+                if (known.getStatement().fits(input)) {
                     group.add(known);
                 }
             }
@@ -66,20 +67,20 @@ public class Arranger {
         }
         // Get all permutations of the relevant knowns. One of these permutations should
         // match the rule's input.
-        List<List<Statement>> possibleArrangements = knowns.getPermutations();
+        List<List<Deduction>> possibleArrangements = knowns.getPermutations();
         // For each possible arrangement, check if it is valid.
-        for (List<Statement> arrangement : possibleArrangements) {
+        for (List<Deduction> arrangement : possibleArrangements) {
             List<Statement> parameters = new ArrayList<>();
             // Get a list of parameters to instantiate the rule with.
             for (int i = 0; i < arrangement.size(); i++) {
-                Statement statement = arrangement.get(i);
+                Deduction deduction = arrangement.get(i);
                 // If the rule's i'th input is an Atom, then the i'th statement of the
                 // arrangement is a parameter.
                 // Otherwise, add the statement's parameters.
                 if (ruleInputList.get(i) instanceof Atom) {
-                    parameters.add(statement);
+                    parameters.add(deduction.getStatement());
                 } else {
-                    parameters.addAll(statement.getParameters());
+                    parameters.addAll(deduction.getStatement().getParameters());
                 }
             }
             // Remove any duplicates from the parameters.
@@ -91,7 +92,7 @@ public class Arranger {
                 Rule instantiatedRule = rule.instantiate(parameters);
                 // If the instantiated rule equals the relevant knowns, return the now correct
                 // list of parameters.
-                if (instantiatedRule.getInput().equals(knowns)) {
+                if (instantiatedRule.getInput().equals(knowns.getStatements())) {
                     return parameters;
                 }
             } catch (InstantiateMismatchException e) {

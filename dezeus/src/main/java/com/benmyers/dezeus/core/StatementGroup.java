@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.benmyers.dezeus.core.justification.DebugJustification;
+
 public class StatementGroup extends Statement implements Collection<Statement> {
 
     private Set<Statement> statements = new HashSet<>();
@@ -152,6 +154,14 @@ public class StatementGroup extends Statement implements Collection<Statement> {
             statement = statement.and(arr[i]);
         }
         return statement;
+    }
+
+    public DeductionGroup toDeductionsDebug() {
+        DeductionGroup deductions = new DeductionGroup();
+        for (Statement statement : statements) {
+            deductions.add(new Deduction(statement, new DebugJustification()));
+        }
+        return deductions;
     }
 
     @Override

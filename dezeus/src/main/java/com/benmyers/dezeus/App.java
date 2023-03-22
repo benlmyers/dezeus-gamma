@@ -3,10 +3,10 @@ package com.benmyers.dezeus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Deduction;
+import com.benmyers.dezeus.core.DeductionGroup;
 import com.benmyers.dezeus.core.Namespace;
 import com.benmyers.dezeus.core.Proposition;
 import com.benmyers.dezeus.core.PropositionBuilder;
@@ -130,7 +130,7 @@ public class App {
                             String value = scanner.nextLine();
                             list.add(new StatementBuilder(value).build());
                         }
-                        Arranger arranger = new Arranger(list, rule);
+                        Arranger arranger = new Arranger(list.toDeductionsDebug(), rule);
                         List<Statement> result = arranger.arrangeRelevant();
                         System.out.println("Result: " + result);
                     } catch (DezeusException e) {
@@ -156,8 +156,8 @@ public class App {
                                 break;
                             list.add(new StatementBuilder(in).build());
                         }
-                        Arranger arranger = new Arranger(list, rule);
-                        List<StatementGroup> result = arranger.arrangeAny();
+                        Arranger arranger = new Arranger(list.toDeductionsDebug(), rule);
+                        List<DeductionGroup> result = arranger.arrangeAny();
                         List<Statement> ruleInputList = new ArrayList<>(rule.getInput());
                         System.out.println("Result: ");
                         for (int i = 0; i < rule.getInput().size(); i++) {
@@ -186,8 +186,8 @@ public class App {
                                 break;
                             list.add(new StatementBuilder(in).build());
                         }
-                        Deriver deriver = new Deriver(list, rule);
-                        Set<Deduction> deductions = deriver.deriveAny();
+                        Deriver deriver = new Deriver(list.toDeductionsDebug(), rule);
+                        DeductionGroup deductions = deriver.deriveAny();
                         System.out.println("Result: ");
                         for (Deduction deduction : deductions) {
                             System.out.println(deduction);
@@ -218,11 +218,11 @@ public class App {
                     System.out.println("Enter the ID of the rule you wish to apply:");
                     System.out.print(">> ");
                     id = Integer.parseInt(scanner.nextLine());
-                    rule = new RulesManager().get(id);
-                    System.out.println("You chose: " + rule);
                     try {
-                        Deriver deriver = new Deriver(statements, rule);
-                        Set<Deduction> result = deriver.deriveRelevant();
+                        rule = new RulesManager().get(id);
+                        System.out.println("You chose: " + rule);
+                        Deriver deriver = new Deriver(statements.toDeductionsDebug(), rule);
+                        DeductionGroup result = deriver.deriveRelevant();
                         System.out.println("Result: " + result);
                     } catch (DezeusException e) {
                         e.printStackTrace();
@@ -386,8 +386,7 @@ public class App {
                     deriveMenu(p);
                     break;
                 case 2:
-                    StatementGroup list = p.getPremises();
-                    Deducer deducer = new Deducer(list);
+                    Deducer deducer = new Deducer(p.getPremisesAsDeductions());
                     System.out.println("Deductions:");
                     for (Deduction deduction : deducer.getDeductions()) {
                         System.out.println(deduction);

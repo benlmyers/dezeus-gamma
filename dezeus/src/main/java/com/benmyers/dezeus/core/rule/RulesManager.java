@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import com.benmyers.dezeus.core.error.RuleNotFoundException;
+
 public class RulesManager {
 
     private Set<Rule> rules = new HashSet<>();
@@ -37,13 +39,13 @@ public class RulesManager {
         return rules;
     }
 
-    public Rule get(int id) {
+    public Rule get(int id) throws RuleNotFoundException {
         for (Rule rule : rules) {
             if (rule.getId() == id) {
                 return rule;
             }
         }
-        return null;
+        throw new RuleNotFoundException();
     }
 
     public void listAll() {

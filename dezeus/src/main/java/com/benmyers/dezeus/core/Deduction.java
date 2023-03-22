@@ -1,6 +1,7 @@
 package com.benmyers.dezeus.core;
 
 import com.benmyers.dezeus.core.justification.Justification;
+import com.benmyers.dezeus.core.justification.RuleJustification;
 
 public class Deduction {
 
@@ -18,6 +19,17 @@ public class Deduction {
 
     public Justification getJustification() {
         return justification;
+    }
+
+    public void printTrace(int depth) {
+        String indent = new String(new char[depth]).replace("\0", " ");
+        System.out.println(indent + toString());
+        RuleJustification ruleJustification = (RuleJustification) getJustification();
+        if (ruleJustification == null) {
+            return;
+        }
+        for (Deduction deduction : ruleJustification.getEvidence())
+            deduction.printTrace(depth + 1);
     }
 
     @Override

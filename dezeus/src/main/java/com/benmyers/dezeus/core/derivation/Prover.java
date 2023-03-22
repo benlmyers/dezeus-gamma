@@ -1,8 +1,7 @@
 package com.benmyers.dezeus.core.derivation;
 
-import java.util.Set;
-
 import com.benmyers.dezeus.core.Deduction;
+import com.benmyers.dezeus.core.DeductionGroup;
 import com.benmyers.dezeus.core.Namespace;
 import com.benmyers.dezeus.core.Proof;
 import com.benmyers.dezeus.core.Proposition;
@@ -25,11 +24,14 @@ public class Prover {
     }
 
     public Proof prove() throws ProofNotFoundException {
-        Set<Deduction> deductions = proposition.getPremisesAsDeductions();
+        DeductionGroup deductions = proposition.getPremisesAsDeductions();
         StatementGroup conclusions = proposition.getConclusions();
         Show show = conclusions.show(deductions);
         try {
-            show.attempt();
+            DeductionGroup deduction = show.attempt();
+            for (Deduction d : deduction) {
+                System.out.println(d);
+            }
         } catch (ShowFailedException e) {
             e.printStackTrace();
             throw new ProofNotFoundException();

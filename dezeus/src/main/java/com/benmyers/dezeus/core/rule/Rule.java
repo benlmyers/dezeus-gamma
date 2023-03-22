@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.benmyers.dezeus.core.Atom;
 import com.benmyers.dezeus.core.Deduction;
+import com.benmyers.dezeus.core.DeductionGroup;
 import com.benmyers.dezeus.core.Statement;
 import com.benmyers.dezeus.core.StatementGroup;
 import com.benmyers.dezeus.core.error.ApplyMismatchException;
@@ -100,13 +101,14 @@ public abstract class Rule implements Copyable<Rule> {
         return rule;
     }
 
-    public Set<Deduction> apply(StatementGroup input) throws ApplyMismatchException {
-        if (!input.equals(this.input)) {
+    public DeductionGroup apply(DeductionGroup input) throws ApplyMismatchException {
+        StatementGroup _input = input.getStatements();
+        if (!_input.equals(this.input)) {
             throw new ApplyMismatchException();
         }
-        Set<Deduction> deductions = new HashSet<>();
+        DeductionGroup deductions = new DeductionGroup();
         for (Statement statement : output) {
-            deductions.add(new Deduction(statement, new RuleJustification(this)));
+            deductions.add(new Deduction(statement, new RuleJustification(this, input)));
         }
         return deductions;
     }

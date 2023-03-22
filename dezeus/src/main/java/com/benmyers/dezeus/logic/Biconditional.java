@@ -6,9 +6,12 @@ import java.util.Map;
 
 import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.Atom;
+import com.benmyers.dezeus.core.DeductionGroup;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.ParameterizedClass;
 import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.StatementGroup;
+import com.benmyers.dezeus.core.derivation.Show;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Biconditional extends Operator {
@@ -39,6 +42,13 @@ public class Biconditional extends Operator {
 
     public Biconditional copy() {
         return new Biconditional(a.copy(), b.copy());
+    }
+
+    @Override
+    public Show show(DeductionGroup deductions) {
+        Conditional bcl = new Conditional(a, b);
+        Conditional bcr = new Conditional(b, a);
+        return Show.direct(deductions, new StatementGroup(bcl, bcr));
     }
 
     @Override

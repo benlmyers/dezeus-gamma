@@ -6,9 +6,11 @@ import java.util.Map;
 
 import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.Atom;
+import com.benmyers.dezeus.core.DeductionGroup;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.ParameterizedClass;
 import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.derivation.Show;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Conditional extends Operator {
@@ -38,6 +40,11 @@ public class Conditional extends Operator {
 
     public Conditional copy() {
         return new Conditional(ant.copy(), cons.copy());
+    }
+
+    @Override
+    public Show show(DeductionGroup deductions) {
+        return Show.conditional(deductions, this);
     }
 
     @Override

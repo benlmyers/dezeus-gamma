@@ -6,9 +6,12 @@ import java.util.Map;
 
 import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.Atom;
+import com.benmyers.dezeus.core.DeductionGroup;
 import com.benmyers.dezeus.core.Operator;
 import com.benmyers.dezeus.core.ParameterizedClass;
 import com.benmyers.dezeus.core.Statement;
+import com.benmyers.dezeus.core.StatementGroup;
+import com.benmyers.dezeus.core.derivation.Show;
 import com.benmyers.dezeus.lang.Symbol;
 
 public class Conjunction extends Operator {
@@ -36,8 +39,17 @@ public class Conjunction extends Operator {
         return b;
     }
 
+    public StatementGroup asGroup() {
+        return new StatementGroup(this);
+    }
+
     public Conjunction copy() {
         return new Conjunction(a.copy(), b.copy());
+    }
+
+    @Override
+    public Show show(DeductionGroup deductions) {
+        return Show.direct(deductions, this.asGroup());
     }
 
     @Override

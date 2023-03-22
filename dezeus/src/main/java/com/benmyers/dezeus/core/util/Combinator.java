@@ -1,10 +1,8 @@
 package com.benmyers.dezeus.core.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import com.benmyers.dezeus.core.Statement;
-import com.benmyers.dezeus.core.StatementGroup;
 
 public class Combinator {
 
@@ -14,25 +12,25 @@ public class Combinator {
      * @return List of all Cartesian products of each of the StatementGroups (sets
      *         of statements).
      */
-    public static List<List<Statement>> getCartesianProduct(List<StatementGroup> groups) {
-        List<List<Statement>> result = new ArrayList<>();
+    public static <E> List<List<E>> getCartesianProduct(List<? extends Collection<E>> groups) {
+        List<List<E>> result = new ArrayList<>();
         if (groups.isEmpty()) {
             return result;
         }
         if (groups.size() == 1) {
-            for (Statement statement : groups.get(0)) {
-                List<Statement> list = new ArrayList<>();
+            for (E statement : groups.get(0)) {
+                List<E> list = new ArrayList<>();
                 list.add(statement);
                 result.add(list);
             }
             return result;
         }
-        List<StatementGroup> subgroups = new ArrayList<>(groups);
-        StatementGroup firstGroup = subgroups.remove(0);
-        List<List<Statement>> subResult = getCartesianProduct(subgroups);
-        for (Statement statement : firstGroup) {
-            for (List<Statement> list : subResult) {
-                List<Statement> newList = new ArrayList<>();
+        List<Collection<E>> subgroups = new ArrayList<>(groups);
+        Collection<E> firstGroup = subgroups.remove(0);
+        List<List<E>> subResult = getCartesianProduct(subgroups);
+        for (E statement : firstGroup) {
+            for (List<E> list : subResult) {
+                List<E> newList = new ArrayList<>();
                 newList.add(statement);
                 newList.addAll(list);
                 result.add(newList);

@@ -1,8 +1,5 @@
 package com.benmyers.dezeus.core;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.benmyers.dezeus.App;
 import com.benmyers.dezeus.core.derivation.Prover;
 import com.benmyers.dezeus.core.error.ProofNotFoundException;
@@ -31,12 +28,12 @@ public class Proposition {
         return premises;
     }
 
-    public Set<Deduction> getPremisesAsDeductions() {
-        Set<Deduction> set = new HashSet<>();
+    public DeductionGroup getPremisesAsDeductions() {
+        DeductionGroup group = new DeductionGroup();
         for (Statement statement : premises) {
-            set.add(new Deduction(statement, new PremiseJustification()));
+            group.add(new Deduction(statement, new PremiseJustification()));
         }
-        return set;
+        return group;
     }
 
     public StatementGroup getConclusions() {

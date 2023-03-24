@@ -69,7 +69,7 @@ public class App {
     private static void rulesMenu() {
         System.out.println("-");
         System.out.println("[1] List All Rules");
-        System.out.println("[2] Define Law");
+        System.out.println("[2] Create a Rule");
         System.out.println("[3] Apply a Rule");
         System.out.println("[4] Instantiate a Rule");
         System.out.println("[5] Arrange Relevant for Rule Use");
@@ -263,13 +263,16 @@ public class App {
         System.out.println("Enter an ID (name) value (lowercase_syntax):");
         System.out.print(">> ");
         String id = scanner.nextLine();
+        System.out.println("Enter a path (/path/name) for the rule:");
+        System.out.print(">> ");
+        String path = scanner.nextLine();
         try {
             PropositionBuilder builder = new PropositionBuilder(input);
             Proposition proposition = builder.build();
             System.out.println("-");
             System.out.println("You entered: " + proposition.toString());
             System.out.println("Saving...");
-            Rule rule = new Rule(id, id, proposition);
+            Rule rule = new Rule(id, id, path, proposition);
             rule.writeToFile();
             System.out.println("Saved.");
         } catch (Exception e) {

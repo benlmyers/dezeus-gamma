@@ -2,6 +2,7 @@ package com.benmyers.dezeus.core.rule;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,10 @@ import com.benmyers.dezeus.core.justification.RuleJustification;
 import com.benmyers.dezeus.core.util.Copyable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 public class Rule implements Copyable<Rule> {
 
@@ -30,14 +35,17 @@ public class Rule implements Copyable<Rule> {
     String code = "UNDEF";
     transient boolean instantiated = false;
     Label label = Label.UNLABELLED;
+    String path = "/logic";
 
     Proposition proposition = new Proposition(new StatementGroup(), new StatementGroup());
 
     public final void writeToFile() throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(StatementGroup.class, serializer())
+                .setPrettyPrinting()
+                .create();
         String json = gson.toJson(this);
-        System.out.println(json);
-        File file = new File("rules/" + f(label) + "/" + id + ".json");
+        File file = new File("rules" + path + "/" + id + ".json");
         file.getParentFile().mkdirs();
         file.createNewFile();
         Files.write(file.toPath(), json.getBytes());
@@ -67,10 +75,11 @@ public class Rule implements Copyable<Rule> {
         this.proposition = new Proposition(input, output);
     }
 
-    public Rule(String name, String code, Proposition proposition) {
+    public Rule(String name, String code, String path, Proposition proposition) {
         this.id = name;
         this.name = name;
         this.code = code;
+        this.path = path;
         this.proposition = proposition;
     }
 
@@ -174,5 +183,18 @@ public class Rule implements Copyable<Rule> {
             default:
                 return "unlabelled";
         }
+    }
+
+    private JsonSerializer<StatementGroup> serializer() {
+        return new JsonSerializer<StatementGroup>() {
+            @Override
+            public JsonArray serialize(StatementGroup src, Type typeOfSrc, JsonSerializationContext context) {
+                JsonArray array = new JsonArray();
+                for (Statement statement : src) {
+                    array.add(new JsonPrimitive(statement.toString()));
+                }
+                return array;
+            }
+        };
     }
 }

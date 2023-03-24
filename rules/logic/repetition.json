@@ -1,0 +1,15 @@
+{
+  "id": "repetition",
+  "name": "repetition",
+  "code": "repetition",
+  "label": "LAW",
+  "path": "/logic",
+  "proposition": {
+    "premises": [
+      "P"
+    ],
+    "conclusions": [
+      "P"
+    ]
+  }
+}
